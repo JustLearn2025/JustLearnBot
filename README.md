@@ -1,6 +1,6 @@
-# # JUSTLearn Bot 🤖
+# JUSTLearn Bot 🤖
 
-An intelligent Telegram bot designed for Computer Science students to practice Data Structures concepts through adaptive testing and exam simulation.
+An intelligent Telegram bot designed for Computer Science students to practice **CS211 Data Structures** concepts through adaptive testing and exam simulation. Plans to expand to additional Computer Science subjects.
 
 ## 🌟 Features
 
@@ -17,13 +17,26 @@ An intelligent Telegram bot designed for Computer Science students to practice D
 - **Daily Reminders** - Customizable study notifications
 - **Session Management** - Resume interrupted tests
 
-### 📊 Topics Covered
-- Algorithm Analysis and Big-O Notation
-- Array-Based Lists & Linked Lists
-- Stacks, Queues & Recursion
-- Searching and Hashing
-- Binary Trees & Graphs
-- Sorting Algorithms
+### 📊 Subjects Covered
+
+#### Currently Available: CS211 - Data Structures
+- **Algorithm Analysis and Big-O Notation** - Time and space complexity analysis
+- **Array-Based Lists** - Dynamic arrays, operations, and implementations
+- **Linked Lists** - Singly, doubly, and circular linked lists
+- **Stacks** - LIFO operations, applications, and implementations
+- **Queues** - FIFO operations, circular queues, and priority queues
+- **Recursion** - Recursive algorithms and problem-solving techniques
+- **Searching and Hashing** - Linear/binary search, hash tables, collision handling
+- **Binary Trees** - Tree traversals, BST operations, and balancing
+- **Graphs** - Graph representations, traversals (DFS/BFS), and algorithms
+- **Sorting Algorithms** - Bubble, selection, insertion, merge, quick sort
+
+#### 🚀 Future Subject Expansions
+- **Algorithms** (Planned)
+- **Operating Systems** (Planned)
+- **Database Systems** (Planned)
+- **Object-Oriented Programming** (Future)
+- **Computer Networks** (Future)
 
 ## 🚀 Quick Start
 
@@ -134,14 +147,13 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 For support and suggestions:
 - 📧 Email: just.learn.supp@gmail.com
 - 🐛 Issues: [GitHub Issues](https://github.com/JustLearn2025/JustLearn2025/issues)
-
-## 🎯 Roadmap
-
-- [ ] Additional CS topics (Algorithms, Operating Systems)
-- [ ] Voice message support
+  
+### Feature Enhancements
+- [ ] Voice message support for questions
 - [ ] Study groups and collaborative features
-- [ ] Advanced analytics dashboard
-- [ ] Mobile app companion
+- [ ] Advanced analytics dashboard with detailed insights
+- [ ] Integration with university LMS systems
+- [ ] Gamification with achievements and leaderboards
 
 ---
 
