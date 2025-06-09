@@ -91,7 +91,6 @@ python chatbot.py --token YOUR_BOT_TOKEN
 ├── chatbot.py              # Main bot logic & Telegram handlers
 ├── database/
 │   ├── database_manager.py # SQLite operations
-│   └── migrate_to_sqlite.py # JSON to SQLite migration
 ├── bot/
 │   ├── exam_manager.py     # Exam creation & management
 │   ├── search_engine.py    # FAISS-based question retrieval
