@@ -1,0 +1,7 @@
+python-telegram-bot==20.7
+sqlite3
+faiss-cpu
+sentence-transformers
+numpy
+matplotlib
+pytz
