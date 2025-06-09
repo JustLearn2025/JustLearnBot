@@ -1,0 +1,42 @@
+{
+  "Algorithm Analysis and Big-O Notation": {
+    "youtube": "https://www.youtube.com/watch?v=Mo4vesaut8g",
+    "resource": "https://www.geeksforgeeks.org/analysis-of-algorithms-set-1-asymptotic-analysis/"
+  },
+  "Array-Based Lists": {
+    "youtube": "https://www.youtube.com/watch?v=GRIwvS93hNM",
+    "resource": "https://opendatastructures.org/newhtml/ods/latex/arrays.html"
+  },
+  "Linked Lists": {
+    "youtube": "https://youtu.be/t7WnaypBoNw?si=PMBZxsH6j40i-mTi",
+    "resource": "https://www.geeksforgeeks.org/data-structures/linked-list/"
+  },
+  "Stacks": {
+    "youtube": "https://youtu.be/vdPNQzgBu_I?si=fzT7ljjTXi18S7aj",
+    "resource": "https://www.geeksforgeeks.org/stack-data-structure/"
+  },
+  "Queues": {
+    "youtube": "https://youtu.be/8t_tzT52br8?si=1CrIHl76Uqe8WFWX",
+    "resource": "https://www.geeksforgeeks.org/queue-data-structure/"
+  },
+  "Recursion": {
+    "youtube": "https://youtu.be/djgs6PnNl2w?si=ot-gVVh26F84Ipa3",
+    "resource": "https://www.geeksforgeeks.org/introduction-to-recursion-2/"
+  },
+  "Searching and Hashing": {
+    "youtube": "https://youtu.be/mZFuZHOESEY?si=_Q13yQQsZgjm0gPf",
+    "resource": "https://www.geeksforgeeks.org/hashing-data-structure/"
+  },
+  "Binary Trees": {
+    "youtube": "https://youtu.be/abaxG_-P9Ug?si=VSM92b7anbguj0Yh",
+    "resource": "https://www.geeksforgeeks.org/binary-tree-data-structure/"
+  },
+  "Graphs": {
+    "youtube": "https://youtu.be/R74DnYySxv0?si=YTs_8hk3kAh-FP6h",
+    "resource": "https://www.geeksforgeeks.org/graph-data-structure/"
+  },
+  "Sorting Algorithms": {
+    "youtube": "https://youtube.com/playlist?list=PLCInYL3l2AajqOUW_2SwjWeMwf4vL4RSp&si=nM0RILvxmdiNZq5k",
+    "resource": "https://www.geeksforgeeks.org/sorting-algorithms/"
+  }
+}

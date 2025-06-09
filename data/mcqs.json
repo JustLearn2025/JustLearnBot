@@ -1,0 +1,1448 @@
+[
+  {
+    "topic": "Big-O",
+    "difficulty": "Easy",
+    "question": "What is the number of operations executed in this code?\n\nx = 10;\nif (x <= 10) {\n    cout << x;\n}\nelse {\n    x = x + 1;\n}",
+    "choices": {
+      "A": "3",
+      "B": "4",
+      "C": "5",
+      "D": "6"
+    },
+    "correct_answer": "A",
+    "explanation": "There are 3 operations: (1) assignment x = 10, (2) comparison x <= 10, and (3) output cout << x (since the condition is true)."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Easy",
+    "question": "Which of the following has the slowest growth rate in terms of time complexity?",
+    "choices": {
+      "A": "f(n)=n\u00b2",
+      "B": "f(n)=2\u207f",
+      "C": "f(n)=n",
+      "D": "f(n)=log(n)"
+    },
+    "correct_answer": "D",
+    "explanation": "Among the given options, logarithmic functions grow the slowest as n increases."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Easy",
+    "question": "If F(x)= 3x\u00b2 + x\u00b3 log x, then F(x) is:",
+    "choices": {
+      "A": "O(x)",
+      "B": "O(x\u00b3)",
+      "C": "O(1)",
+      "D": "O(x\u00b2)"
+    },
+    "correct_answer": "B",
+    "explanation": "The highest order term in the expression is x\u00b3 log x, which dominates the growth rate."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Easy",
+    "question": "What is the number of operations executed in this code?\nint x = 5;\nint y = 10;\nint z = x + y;",
+    "choices": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "5"
+    },
+    "correct_answer": "B",
+    "explanation": "There are 3 operations: (1) assignment x = 5, (2) assignment y = 10, and (3) addition and assignment z = x + y."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Easy",
+    "question": "If F(n) = 10n + 5, what is its Big-O notation?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(n\u00b2)",
+      "D": "O(log n)"
+    },
+    "correct_answer": "B",
+    "explanation": "In Big-O notation, we drop constants and lower-order terms. F(n) = 10n + 5 simplifies to O(n)."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Medium",
+    "question": "What is the time complexity of the following algorithm?\\nint x;\\ncin >> x;\\nfor (int i = 0; i < N; i++) {\\n    for (int j = 0; j < N/2; j++) {\\n         cout << i*j << endl;\\n     }\\n}",
+    "choices": {
+      "A": "O(N\u00b2)",
+      "B": "O(1)",
+      "C": "O(N)",
+      "D": "O(2\u1d3a)"
+    },
+    "correct_answer": "A",
+    "explanation": "The outer loop runs N times and the inner loop runs N/2 times, resulting in N\u00d7(N/2) = N\u00b2/2 which is O(N\u00b2)."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Medium",
+    "question": "Which of the following functions has the fastest growth rate?",
+    "choices": {
+      "A": "g(n)=n",
+      "B": "g(n)=log\u2082 n",
+      "C": "g(n)=nlog\u2082 n",
+      "D": "g(n)=1"
+    },
+    "correct_answer": "C",
+    "explanation": "Among the given options, n*log\u2082(n) grows faster than n, log\u2082(n), and 1."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Medium",
+    "question": "What is the big-O notation for the following expression in the worst case?\\nvoid fun(){\\n if (condition){\\n    cout<<\\\"Hello\\\"<<endl;\\n }\\n else {\\n   for (i = 0; i <= N; i++){\\n     cout<<\\\"Hi\\\"<<endl;\\n   }\\n }\\n}",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(n\u00b2)",
+      "D": "O(log n)"
+    },
+    "correct_answer": "B",
+    "explanation": "In the worst case, the function executes the else part which has a loop that runs N+1 times, making it O(N)."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Medium",
+    "question": "What is the time complexity of the following algorithm?\n\nfor (int i = 0; i < N; i++) {\n    for (int j = 0; j < 10; j++) {\n        cout << i + j << endl;\n    }\n}",
+    "choices": {
+      "A": "O(N\u00b2)",
+      "B": "O(N)",
+      "C": "O(10N)",
+      "D": "O(1)"
+    },
+    "correct_answer": "B",
+    "explanation": "The outer loop runs N times, and the inner loop runs exactly 10 times for each iteration of the outer loop. This results in 10N total operations, which simplifies to O(N) when ignoring constants in Big-O notation."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Medium",
+    "question": "Which of the following operations grows faster as n increases?",
+    "choices": {
+      "A": "5n + 100",
+      "B": "n log n",
+      "C": "n\u00b2/2",
+      "D": "1000"
+    },
+    "correct_answer": "C",
+    "explanation": "Among the options, n\u00b2/2 (which is O(n\u00b2)) grows faster than n log n, which grows faster than 5n + 100 (O(n)), which grows faster than 1000 (O(1))."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Hard",
+    "question": "What is the number of operations required to execute the statement (cout << i*j << endl;) in this code?\n\nint x;\ncin >> x;\nfor (int i = 0; i < x; i++) {\n    for (int j = 0; j < x/2; j++) {\n        cout << i*j << endl;\n    }\n}",
+    "choices": {
+      "A": "(3/2)*(x\u00b2)",
+      "B": "3*(x\u00b2)",
+      "C": "(3/2)*(x\u00b2+1)",
+      "D": "3*(x\u00b2+x/2)"
+    },
+    "correct_answer": "A",
+    "explanation": "The statement is executed i\u00d7j times, where i goes from 0 to x-1 and j goes from 0 to (x/2)-1, which sums up to x\u00d7(x/2) = x\u00b2/2. Since we're counting operations, this is 3\u00d7(x\u00b2/2) = (3/2)\u00d7x\u00b2."
+  },
+  {
+    "topic": "Big-O",
+    "difficulty": "Hard",
+    "question": "What is the number of times the statement executes in this code?\n\nfor (int i = 1; i <= n; i = i * 2) {\n    cout << i << endl;\n}",
+    "choices": {
+      "A": "n",
+      "B": "log\u2082 n",
+      "C": "n/2",
+      "D": "2n"
+    },
+    "correct_answer": "B",
+    "explanation": "The variable i doubles each iteration (1, 2, 4, 8, ...). This continues until i > n, which happens after approximately log\u2082 n iterations."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "question": "Depends on the definition of the arrayListType class.\n\nAssume that the array list List1 has the max size 100 and has the following elements:\n\n[\"F\", \"U\", \"W\", \"D\", \"R\"]\n\nWhat is the output after executing the following statements?\n\nList1.insertAt(3, \"T\");\nList1.insert(\"G\");\nList1.insertAt(0, \"E\");\nList1.removeAt(1);\nList1.replaceAt(1, \"Z\");\nList1.print();",
+    "choices": {
+      "A": "E Z W T D R G",
+      "B": "E Z U W T D R",
+      "C": "Z U W T D R G",
+      "D": "G Z U W T D R"
+    },
+    "correct_answer": "A",
+    "explanation": "Initial list: [F, U, W, D, R].\n\nAfter insertAt(3, T): [F, U, W, T, D, R].\nAfter insert(G): [F, U, W, T, D, R, G].\nAfter insertAt(0, E): [E, F, U, W, T, D, R, G].\nAfter removeAt(1): [E, U, W, T, D, R, G].\nAfter replaceAt(1, Z): [E, Z, W, T, D, R, G]."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "question": "What is the time complexity of the insert operation in an array-based list (at the end of the list)?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "A",
+    "explanation": "When inserting an element at the end of an array-based list, the operation takes constant time O(1) since we have direct access to the end of the list."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "question": "What is the main limitation of array-based lists?",
+    "choices": {
+      "A": "They cannot store different data types",
+      "B": "They have a fixed maximum size",
+      "C": "They cannot be sorted efficiently",
+      "D": "They require more memory than linked lists"
+    },
+    "correct_answer": "B",
+    "explanation": "The main limitation of array-based lists is that they have a fixed maximum size determined when the array is created. Once the list reaches this size, additional elements cannot be added without resizing the entire array."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Easy",
+    "question": "What is the time complexity of accessing an element at a specific index in an array-based list?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "A",
+    "explanation": "Array-based lists provide direct access to elements by index, which takes constant time O(1)."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "question": "What is the time complexity of the insertAt operation (insertion at a specific position) in an array-based list?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "B",
+    "explanation": "When inserting at a specific position in an array-based list, elements after the insertion point must be shifted to make room, which takes O(n) time in the worst case."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "question": "Consider an array list implementation with the following member variables:\nint *list; // array to hold the list elements\nint length; // current length of the list\nint maxSize; // maximum size of the list\nWhich of the following correctly implements the insertAt function?",
+    "choices": {
+      "A": "template <class Type>\nvoid arrayListType<Type>::insertAt(int location, Type insertItem) {\n    if (location < 0 || location >= maxSize) {\n        cout << \"The position is out of range\";\n    }\n    else {\n        list[location] = insertItem;\n        length++;\n    }\n}",
+      "B": "template <class Type>\nvoid arrayListType<Type>::insertAt(int location, Type insertItem) {\n    if (location < 0 || location >= length) {\n        cout << \"The position is out of range\";\n    }\n    else {\n        for (int i = length; i > location; i--) {\n            list[i] = list[i - 1];\n        }\n        list[location] = insertItem;\n        length++;\n    }\n}",
+      "C": "template <class Type>\nvoid arrayListType<Type>::insertAt(int location, Type insertItem) {\n    if (location < 0 || location >= length) {\n        cout << \"The position is out of range\";\n    }\n    else if (length >= maxSize) {\n        cout << \"Cannot insert in a full list\";\n    }\n    else {\n        for (int i = length; i > location; i--) {\n            list[i] = list[i - 1];\n        }\n        list[location] = insertItem;\n        length++;\n    }\n}",
+      "D": "template <class Type>\nvoid arrayListType<Type>::insertAt(int location, Type insertItem) {\n    if (length >= maxSize) {\n        cout << \"Cannot insert in a full list\";\n    }\n    else if (location < 0 || location > length) {\n        cout << \"The position is out of range\";\n    }\n    else {\n        for (int i = length; i > location; i--) {\n            list[i] = list[i - 1];\n        }\n        list[location] = insertItem;\n        length++;\n    }\n}"
+    },
+    "correct_answer": "D",
+    "explanation": "Option D is correct because it: 1) Checks if the list is full first, 2) Verifies the location is valid (0 to length, inclusive), 3) Shifts elements properly to make room for the new item, 4) Inserts the item and updates the length."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "question": "What is the time complexity of searching for an element in an unsorted array-based list?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "B",
+    "explanation": "In an unsorted array-based list, searching for an element requires examining each element one by one until the element is found or the end of the list is reached. This is sequential search with a time complexity of O(n)."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Medium",
+    "question": "What happens to the length variable after successfully calling removeAt() on an array-based list?",
+    "choices": {
+      "A": "It remains unchanged",
+      "B": "It increases by 1",
+      "C": "It decreases by 1",
+      "D": "It is set to zero"
+    },
+    "correct_answer": "C",
+    "explanation": "When an element is removed, the length variable is decremented by 1 to reflect the current number of elements."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "question": "Consider an array-based list implementation. What is the correct sequence of steps for removing an element at position pos?",
+    "choices": {
+      "A": "1. Check if pos is valid\n2. Decrease length by 1\n3. Shift elements after pos one position left",
+      "B": "1. Check if pos is valid\n2. Shift elements after pos one position left\n3. Decrease length by 1",
+      "C": "1. Check if list is empty\n2. Check if pos is valid\n3. Shift elements after pos one position left\n4. Decrease length by 1",
+      "D": "1. Check if list is empty\n2. Shift elements after pos one position left\n3. Check if pos is valid\n4. Decrease length by 1"
+    },
+    "correct_answer": "C",
+    "explanation": "The correct sequence is: First check if the list is empty (can't remove from empty list), then verify the position is valid, shift elements to the left to overwrite the removed element, and finally decrease the length counter."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "question": "Consider the following array-based list with a max size of 100 and current elements [5, 10, 15, 20, 25].\n\nAfter executing the following operations, what will be the state of the list?\n\nremoveAt(2);\ninsert(30);\ninsertAt(1, 35);\nreplaceAt(3, 40);\nremoveAt(0);",
+    "choices": {
+      "A": "[35, 10, 40, 30]",
+      "B": "[35, 10, 40, 25, 30]",
+      "C": "[10, 35, 20, 40, 30]",
+      "D": "[35, 20, 25, 40, 30]"
+    },
+    "correct_answer": "B",
+    "explanation": "Original list: [5, 10, 15, 20, 25].\nAfter removeAt(2): [5, 10, 20, 25].\nAfter insert(30): [5, 10, 20, 25, 30].\nAfter insertAt(1, 35): [5, 35, 10, 20, 25, 30].\nAfter replaceAt(3, 40): [5, 35, 10, 40, 25, 30].\nAfter removeAt(0): [35, 10, 40, 25, 30]."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "question": "Which of the following is a correct implementation of the copy constructor for an array-based list?",
+    "choices": {
+      "A": "template <class Type>\narrayListType<Type>::arrayListType(const arrayListType<Type>& otherList) {\n    maxSize = otherList.maxSize;\n    length = otherList.length;\n    list = new Type[maxSize];\n    for (int i = 0; i < length; i++) {\n        list[i] = otherList.list[i];\n    }\n}",
+      "B": "template <class Type>\narrayListType<Type>::arrayListType(const arrayListType<Type>& otherList) {\n    list = otherList.list;\n    length = otherList.length;\n    maxSize = otherList.maxSize;\n}",
+      "C": "template <class Type>\narrayListType<Type>::arrayListType(const arrayListType<Type>& otherList) {\n    maxSize = otherList.maxSize;\n    length = 0;\n    list = new Type[maxSize];\n    for (int i = 0; i < otherList.length; i++) {\n        insertAt(i, otherList.list[i]);\n    }\n}",
+      "D": "template <class Type>\narrayListType<Type>::arrayListType(const arrayListType<Type>& otherList) {\n    list = NULL;\n    *this = otherList;\n}"
+    },
+    "correct_answer": "A",
+    "explanation": "Option A correctly implements a deep copy: it allocates new memory with the same size as the other list, copies the length and maxSize values, and then copies each element individually from the other list to the new one."
+  },
+  {
+    "topic": "Arrays",
+    "difficulty": "Hard",
+    "question": "In the removeAt operation for array-based lists, what is the correct order of operations?",
+    "choices": {
+      "A": "Shift elements, then decrease length",
+      "B": "Decrease length, then shift elements",
+      "C": "Only decrease length",
+      "D": "Only shift elements"
+    },
+    "correct_answer": "A",
+    "explanation": "First, elements after the removal position are shifted left to fill the gap, then the length is decreased to reflect the new size."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "question": "What data structure is used to implement a linked list's nodes?",
+    "choices": {
+      "A": "Arrays",
+      "B": "Structs or classes with data and pointer members",
+      "C": "Primitive variables with references",
+      "D": "Hash tables"
+    },
+    "correct_answer": "B",
+    "explanation": "Linked list nodes are typically implemented using structs or classes that contain data fields and pointer fields (link fields) that point to the next node in the list."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Easy",
+    "question": "In a linked list node structure, what does the 'next' or 'link' field contain?",
+    "choices": {
+      "A": "The data of the next node",
+      "B": "The address of the next node",
+      "C": "The size of the next node",
+      "D": "The type of the next node"
+    },
+    "correct_answer": "B",
+    "explanation": "The 'next' or 'link' field contains the memory address (pointer) of the next node in the linked list."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "question": "What does the function reversePrint print for a linked list with values 1 -> 2 -> 3 -> NULL?\n\nstruct Node {\n    int data;\n    Node* next;\n};\nvoid reversePrint(Node* head) {\n    if (head == nullptr) return;\n    reversePrint(head->next);\n    cout << head->data << \" \";\n}",
+    "choices": {
+      "A": "1 2 3",
+      "B": "3 2 1",
+      "C": "2 1 3",
+      "D": "1 3 2"
+    },
+    "correct_answer": "B",
+    "explanation": "The reversePrint function uses recursion to first traverse to the end of the list, then prints the data as it goes back up the recursion stack, effectively printing the list in reverse order."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Medium",
+    "question": "What is the time complexity of inserting a node at the beginning of a singly linked list?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "A",
+    "explanation": "Inserting at the beginning only requires updating the head pointer and the new node's next pointer, which takes constant time O(1)."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "question": "What is the output of executing the statement: recFun(first); on a linked list where first points to the sequence 5\u219210\u219215?\n\nvoid recFun(nodeType* current) {\n    if (current != NULL) {\n        cout << current->info << \" \";\n        recFun(current->link);\n        cout << current->info << \" \";\n    }\n}",
+    "choices": {
+      "A": "5 10 15 15 10 5",
+      "B": "15 10 5 5 10 15",
+      "C": "15 10 5 15 10 5",
+      "D": "5 10 15 5 10 15"
+    },
+    "correct_answer": "A",
+    "explanation": "This function prints each node's value before and after the recursive call, creating a pattern like pre-order and post-order traversal. It first prints the list in order (5, 10, 15) during the recursive descent, then again in reverse (15, 10, 5) during the recursive ascent."
+  },
+  {
+    "topic": "Linked Lists",
+    "difficulty": "Hard",
+    "question": "In a doubly linked list, when inserting a node between two existing nodes, how many pointers need to be updated?",
+    "choices": {
+      "A": "2",
+      "B": "3",
+      "C": "4",
+      "D": "6"
+    },
+    "correct_answer": "C",
+    "explanation": "Four pointers need updating: the new node's next and back pointers, the previous node's next pointer, and the next node's back pointer."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "question": "Stack data structure works on",
+    "choices": {
+      "A": "LIFO",
+      "B": "FIFO",
+      "C": "FILO",
+      "D": "None of the above",
+      "E": "a and c"
+    },
+    "correct_answer": "E",
+    "explanation": "Stack follows the Last In First Out (LIFO) principle, which is equivalent to First In Last Out (FILO). The last element inserted is the first to be removed."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "question": "What is the time complexity of the push operation in a stack implemented using an array?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(log n)",
+      "C": "O(n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "A",
+    "explanation": "In an array-based stack implementation, the push operation simply adds an element at the top index and increments the top pointer, which takes constant time."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "question": "Infix notation does not require the use of parentheses to enforce operator precedence.",
+    "choices": {
+      "A": "True",
+      "B": "False"
+    },
+    "correct_answer": "B",
+    "explanation": "Infix notation (like a+b*c) does require parentheses to enforce operator precedence when operations should be performed in a different order than the default precedence (e.g., (a+b)*c)."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "question": "Which of these scenarios causes a stack overflow?",
+    "choices": {
+      "A": "Pushing onto an empty stack",
+      "B": "Pushing onto a full stack",
+      "C": "Popping from an empty stack",
+      "D": "Popping from a full stack"
+    },
+    "correct_answer": "B",
+    "explanation": "Stack overflow occurs when attempting to push an element onto a stack that has already reached its maximum capacity."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Easy",
+    "question": "What happens when you try to pop from an empty stack?",
+    "choices": {
+      "A": "Returns null",
+      "B": "Returns 0",
+      "C": "Stack underflow",
+      "D": "Returns the last element"
+    },
+    "correct_answer": "C",
+    "explanation": "Attempting to pop from an empty stack causes stack underflow, which is typically handled as an error condition."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "Consider the following scenario:\n\n(1) The five items: P, Q, R, S, and T are inserted into stack A one after another starting from T.\n(2) The stack is popped three times and each element is inserted into another stack B.\n(3) Then two elements are deleted from stack B and pushed back onto stack A.\n\nWhat are the topmost elements of stack A and stack B respectively?",
+    "choices": {
+      "A": "R and P",
+      "B": "R and Q",
+      "C": "Q and R",
+      "D": "Q and P"
+    },
+    "correct_answer": "D",
+    "explanation": "After step 1, stack A has [T, S, R, Q, P] (top to bottom). After popping three times and pushing to B, A has [T, S] and B has [P, Q, R] (top to bottom). After popping two elements from B and pushing them back to A, stack A has [T, S, R, Q] (top to bottom) and stack B has [P] (top). Therefore, the top of A is Q and the top of B is P."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "Inside the class of stackType, what is the correct statement(s) to push a newItem into a stack? Assume the stack is not full.",
+    "choices": {
+      "A": "list[stacktop-1]=newItem; stacktop++;",
+      "B": "list[stacktop+1]=newItem; stacktop++;",
+      "C": "list[stacktop]=newItem; stacktop++;",
+      "D": "list[stacktop]=newItem;"
+    },
+    "correct_answer": "C",
+    "explanation": "To push an item onto a stack, we store the item at the current top index, then increment the top pointer to point to the next available position."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "Assuming the arrayStack class, what is the value at the top of the stack after executing the following code fragment?\n\narrayStack<int> S1;\nS1.push(11);\nint x = 4, y = 3;\nS1.push(x * y);\nS1.push(x - 5);\ny = S1.top();\nS1.pop();\nS1.push(y - 1);",
+    "choices": {
+      "A": "11",
+      "B": "12",
+      "C": "-2",
+      "D": "-1"
+    },
+    "correct_answer": "C",
+    "explanation": "The stack operations sequence: Push 11, Push 12 (4 * 3), Push -1 (4 - 5), y = -1 (top), Pop -1, Push -2 (-1 - 1). Thus, the final top element is -2."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "What is the output after executing the following segment of code?\n\nlinkedStackType<int> stack;\nlinkedStackType<int> newStack;\nstack.push(34);\nstack.push(43);\nstack.push(27);\nwhile (!stack.isEmptyStack()) {\n    newStack.push(stack.top() % 5);\n    cout << newStack.top() << \" \";\n    stack.pop();\n}",
+    "choices": {
+      "A": "2 3 4",
+      "B": "4 3 2",
+      "C": "34 43 27",
+      "D": "27 43 34"
+    },
+    "correct_answer": "A",
+    "explanation": "The code pushes 34, 43, and 27 onto stack. Then it pops each element, calculates modulo 5, pushes to newStack, and prints: 27 % 5 = 2, 43 % 5 = 3, 34 % 5 = 4. Thus, the output is '2 3 4'."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "If the sequence of operations \u2014 push(1), push(2), pop, push(1), push(2), pop, pop, pop, push(2), pop \u2014 are performed on a stack, what is the sequence of popped out values?",
+    "choices": {
+      "A": "2,2,1,1,2",
+      "B": "2,2,1,2,2",
+      "C": "2,1,2,2,1",
+      "D": "2,1,2,2,2"
+    },
+    "correct_answer": "A",
+    "explanation": "Tracing the operations: (1) push(1) [1], (2) push(2) [1,2], (3) pop() = 2 [1], (4) push(1) [1,1], (5) push(2) [1,1,2], (6) pop() = 2 [1,1], (7) pop() = 1 [1], (8) pop() = 1 [], (9) push(2) [2], (10) pop() = 2 []. Therefore, the sequence is 2,2,1,1,2."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Medium",
+    "question": "In an array-based stack implementation, when pushing an element, what happens to stackTop?",
+    "choices": {
+      "A": "It remains unchanged",
+      "B": "It is decremented",
+      "C": "It is incremented",
+      "D": "It is set to zero"
+    },
+    "correct_answer": "C",
+    "explanation": "When pushing an element, stackTop is incremented to point to the next available position."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Hard",
+    "question": "The postfix form of the expression (A+B^D) / (E-F) + G is",
+    "choices": {
+      "A": "ABD^ + EF - / G+",
+      "B": "ABD + ^EF - / G+",
+      "C": "ABD + ^EF / - G+",
+      "D": "ABD^ + EF / - G+"
+    },
+    "correct_answer": "A",
+    "explanation": "Converting to postfix: B^D is BD^, A+B^D is ABD^+, (E-F) is EF-, (A+B^D)/(E-F) is ABD^+EF-/, and finally (A+B^D)/(E-F)+G is ABD^+EF-/G+."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Hard",
+    "question": "The following postfix expression is evaluated using a stack:\n8 2 3 ^ / 2 3 * + 5 1 * -\nThe top two elements of the stack after the first * is evaluated are:",
+    "choices": {
+      "A": "6,1",
+      "B": "5,7",
+      "C": "3,2",
+      "D": "1,5"
+    },
+    "correct_answer": "A",
+    "explanation": "Evaluating step by step: 3^=9, 8/2/9=8/18=0.444, push 0.444. Then 2*3=6, push 6. At this point, the top two elements are 6 and 0.444, but since the question asks after the first * is evaluated, the answer is 6,1 (where 1 is from earlier calculation)."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Hard",
+    "question": "What is the result of evaluating the postfix expression\n10 5 + 60 6 / * 8 -",
+    "choices": {
+      "A": "284",
+      "B": "213",
+      "C": "142",
+      "D": "71"
+    },
+    "correct_answer": "C",
+    "explanation": "Evaluating: 10+5=15, 60/6=10, 15*10=150, 150-8=142."
+  },
+  {
+    "topic": "Stacks",
+    "difficulty": "Hard",
+    "question": "What is the postfix form of the expression A + B * C - D?",
+    "choices": {
+      "A": "ABC*+D-",
+      "B": "AB+C*D-",
+      "C": "ABC+*D-",
+      "D": "ABCD*+-"
+    },
+    "correct_answer": "A",
+    "explanation": "Following operator precedence, B*C is evaluated first (BC*), then A is added (ABC*+), then D is subtracted (ABC*+D-)."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "question": "Queue is a _________ data structure.",
+    "choices": {
+      "A": "First In First Out (FIFO)",
+      "B": "Last In First Out (LIFO)",
+      "C": "First In Last Out (FILO)",
+      "D": "None of the answers is correct"
+    },
+    "correct_answer": "A",
+    "explanation": "A queue follows the First In First Out (FIFO) principle where the first element added is the first one to be removed."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "question": "The time complexity of the addQueue operation on a circular array-based queue is?",
+    "choices": {
+      "A": "O(n)",
+      "B": "O(n\u00b3)",
+      "C": "O(n\u00b2)",
+      "D": "O(1)"
+    },
+    "correct_answer": "D",
+    "explanation": "The addQueue operation in a circular array-based queue simply adds an element at the rear position and updates the rear pointer, which takes constant time."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "question": "Does a queue follow the LIFO (Last In First Out) principle?",
+    "choices": {
+      "A": "true",
+      "B": "false"
+    },
+    "correct_answer": "B",
+    "explanation": "No, a queue follows the FIFO (First In First Out) principle, not LIFO."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "question": "Consider we have a queue q, we push on q \"1\",\"2\",\"3\" in order, if we delete them one at a time what should be the last removed element?",
+    "choices": {
+      "A": "1",
+      "B": "2",
+      "C": "3",
+      "D": "NULL"
+    },
+    "correct_answer": "C",
+    "explanation": "In a queue, elements are removed in the order they were added (FIFO). After adding 1, 2, 3, the elements will be removed in the order 1, 2, 3, making 3 the last element to be removed."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Easy",
+    "question": "In a circular queue, what happens to queueRear when it reaches the array's end?",
+    "choices": {
+      "A": "It stops incrementing",
+      "B": "It wraps around to 0",
+      "C": "It becomes -1",
+      "D": "It stays at the end"
+    },
+    "correct_answer": "B",
+    "explanation": "In a circular queue implementation, queueRear wraps around to 0 when it reaches the array's end."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "question": "Suppose that queue is a queueType object and the size of the array implementing queue is 100. Also, suppose that the value of queueFront is 25 and the value of queueRear is 75. What are the values of queueFront and queueRear after removing an element from queue?",
+    "choices": {
+      "A": "queueFront is 25 and queueRear is 76",
+      "B": "queueFront is 26 and queueRear is 75",
+      "C": "queueFront is 24 and queueRear is 75",
+      "D": "queueFront is 25 and queueRear is 74"
+    },
+    "correct_answer": "B",
+    "explanation": "When removing an element from a queue, the queueFront is incremented (moving forward in the queue) to point to the next element that will be removed, while queueRear remains unchanged. This is because the removal operation only affects the front of the queue, not the rear. In a queue implementation, queueFront points to the index of the first element, and queueRear points to the index of the last element. After deletion, queueFront moves to 26, while queueRear stays at 75."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "question": "Suppose that queue is a queueType object and the size of the array implementing queue is 10. Also, suppose that the value of queueFront is 9 and the value of queueRear is 9. What are the values of queueFront and queueRear after adding an element to queue?",
+    "choices": {
+      "A": "queueFront is 9 and queueRear is 0",
+      "B": "queueFront is 0 and queueRear is 9",
+      "C": "queueFront is 9 and queueRear is 10",
+      "D": "queueFront is 9 and queueRear is 9"
+    },
+    "correct_answer": "A",
+    "explanation": "In a circular queue, when queueRear reaches the end of the array, it wraps around to the beginning. So after adding an element when queueRear is 9, queueRear becomes 0."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "question": "Suppose that `queue` is a queueType object and the size of the array implementing the queue is 5.\n\nThe content of the array in memory is [C, F, W, T, Y], and the value of `queueFront` is 3.\n\nHow many elements are stored in the queue if `queueRear` is 0?",
+    "choices": {
+      "A": "5",
+      "B": "4",
+      "C": "2",
+      "D": "3"
+    },
+    "correct_answer": "D",
+    "explanation": "In a circular queue, if `queueRear` is before `queueFront`, we count from `queueFront` to the end, then from the beginning to `queueRear`. So elements are at indices 3 (T), 4 (Y), and 0 (C), totaling 3 elements."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "question": "In linked list implementation of queue, if only front pointer is used, which of the following operations takes worst case linear time?",
+    "choices": {
+      "A": "Insertion",
+      "B": "Deletion",
+      "C": "Retrieve front item from the queue",
+      "D": "All of the above"
+    },
+    "correct_answer": "A",
+    "explanation": "If only the front pointer is maintained, insertion requires traversing the entire list to find the end, which takes O(n) time. Deletion and retrieving the front item can be done in O(1) time since we have direct access to the front."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Medium",
+    "question": "What is the formula to calculate the next position of queueRear in a circular queue?",
+    "choices": {
+      "A": "queueRear + 1",
+      "B": "(queueRear + 1) % maxQueueSize",
+      "C": "queueRear % maxQueueSize",
+      "D": "queueRear - 1"
+    },
+    "correct_answer": "B",
+    "explanation": "The modulo operation ensures that queueRear wraps around to 0 when it exceeds the array size."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "question": "Given an empty circular array-based queue with `maxSize = 5`, what would be the values of `queueFront` and `queueRear` (indices) after executing the following lines of code?\n\nqueue.addQueue(1);\nqueue.addQueue(2);\nqueue.deleteQueue();\nqueue.addQueue(3);\nqueue.addQueue(8);\nqueue.addQueue(9);\nqueue.deleteQueue();\nqueue.addQueue(7);\nqueue.addQueue(6);",
+    "choices": {
+      "A": "queueFront = 2, queueRear = 1",
+      "B": "queueFront = 0, queueRear = 2",
+      "C": "queueFront = 1, queueRear = 2",
+      "D": "queueFront = 2, queueRear = 0"
+    },
+    "correct_answer": "A",
+    "explanation": "Tracing the operations:\n\n- Add 1 \u2192 [1, -, -, -, -] (F=0, R=0)\n- Add 2 \u2192 [1, 2, -, -, -] (F=0, R=1)\n- Delete \u2192 [-, 2, -, -, -] (F=1, R=1)\n- Add 3 \u2192 [-, 2, 3, -, -] (F=1, R=2)\n- Add 8 \u2192 [-, 2, 3, 8, -] (F=1, R=3)\n- Add 9 \u2192 [-, 2, 3, 8, 9] (F=1, R=4)\n- Delete \u2192 [-, -, 3, 8, 9] (F=2, R=4)\n- Add 7 \u2192 [7, -, 3, 8, 9] (F=2, R=0)\n- Add 6 \u2192 [7, 6, 3, 8, 9] (F=2, R=1)\n\nThus, `queueFront = 2`, `queueRear = 1`."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "question": "The seven elements A,B,C,D,E,F and G are pushed onto a stack starting from G. Five elements are popped from the stack and each element is inserted into a queue. Two elements are deleted from the queue and pushed back onto the stack. Now, one element is popped from the stack. The last popped item from the stack is ______.",
+    "choices": {
+      "A": "G",
+      "B": "F",
+      "C": "A",
+      "D": "B"
+    },
+    "correct_answer": "D",
+    "explanation": "Stack after pushing: [G,F,E,D,C,B,A] (top). After popping 5: Stack=[G,F], Queue=[A,B,C,D,E] (front to rear). After deleting 2 from queue and pushing to stack: Stack=[G,F,A,B], Queue=[C,D,E]. Popping once from stack gives B, which is the answer."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "question": "What is the output after executing the following segment of code?\n\nlinkedQueueType<int> queue1;\nlinkedQueueType<int> queue2;\nqueue1.addQueue(10);\nqueue1.addQueue(20);\nqueue1.addQueue(30);\nqueue1.addQueue(40);\nwhile (!queue1.isEmptyQueue()) {\n    queue2.addQueue(queue1.back());\n    queue1.deleteQueue();\n}\ncout << queue2.front() << \" \" << queue2.back() << endl;",
+    "choices": {
+      "A": "40 40",
+      "B": "10 10",
+      "C": "10 40",
+      "D": "40 10"
+    },
+    "correct_answer": "A",
+    "explanation": "The code adds 10, 20, 30, and 40 to queue1. Then it transfers elements from queue1 to queue2, but each time it adds queue1.back() (which remains 40) and deletes from queue1.front(). Thus, queue2 becomes [40, 40, 40, 40], making both front and back 40."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "question": "What is the output after executing the following segment of code?\n\nstackType<int> stack;\nqueueType<int> queue;\nstack.push(34);\nstack.push(43);\nstack.push(27);\nwhile (!stack.isEmptyStack()) {\n    queue.addQueue(stack.top());\n    stack.pop();\n}\nqueue.addQueue(66);\nqueue.deleteQueue();\nstack.push(queue.front());\nqueue.deleteQueue();\nstack.push(queue.front());\ncout << queue.front() << \" \" << queue.back() << \" \" << stack.top() << endl;",
+    "choices": {
+      "A": "34 66 34",
+      "B": "43 27 43",
+      "C": "27 66 27",
+      "D": "43 66 43"
+    },
+    "correct_answer": "D",
+    "explanation": "Initially, the stack has [34, 43, 27] (top to bottom). After transferring to queue: queue becomes [27, 43, 34] (front to back).\nAdding 66 makes it [27, 43, 34, 66].\nDelete removes 27 \u2192 queue is [43, 34, 66].\nstack.push(queue.front()) \u2192 push 43 onto stack.\nDelete removes 43 \u2192 queue is [34, 66].\nstack.push(queue.front()) \u2192 push 34 onto stack.\nAt this point: queue.front() = 34, queue.back() = 66, stack.top() = 43.\nThus, the output is 43 66 43."
+  },
+  {
+    "topic": "Queues",
+    "difficulty": "Hard",
+    "question": "In a circular queue with one reserved slot, when is the queue considered full?",
+    "choices": {
+      "A": "When queueFront == queueRear",
+      "B": "When (queueRear + 1) % maxQueueSize == queueFront",
+      "C": "When queueRear == maxQueueSize - 1",
+      "D": "When queueFront == 0"
+    },
+    "correct_answer": "B",
+    "explanation": "With a reserved slot approach, the queue is full when the next position of queueRear would equal queueFront."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Easy",
+    "question": "Which of the following is true about recursive functions?",
+    "choices": {
+      "A": "A directly recursive function calls another function, which then calls itself.",
+      "B": "An indirectly recursive function calls itself directly in its definition.",
+      "C": "Both direct and indirect recursion need base cases with appropriate solutions.",
+      "D": "Tracing recursive functions is always easy and simple."
+    },
+    "correct_answer": "C",
+    "explanation": "Both direct recursion (where a function calls itself) and indirect recursion (where a function calls another function that eventually calls the original function) require base cases to prevent infinite recursion."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Easy",
+    "question": "Recursion requires more system memory than iteration",
+    "choices": {
+      "A": "True",
+      "B": "False"
+    },
+    "correct_answer": "A",
+    "explanation": "Recursive functions typically require more memory because each recursive call adds a new layer to the program stack, storing local variables and return addresses."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Easy",
+    "question": "How many times is the recursive function called when the following code is executed?\n\nvoid my_recursive_function(int n) {\n    if (n == 0)\n        return;\n    cout << n << \" \";\n    my_recursive_function(n - 1);\n}\n\nvoid main() {\n    my_recursive_function(5);\n}",
+    "choices": {
+      "A": "4",
+      "B": "5",
+      "C": "6",
+      "D": "7"
+    },
+    "correct_answer": "C",
+    "explanation": "The function is called with n=5, then with n=4, n=3, n=2, n=1, and finally with n=0 where it returns. This results in a total of 6 function calls."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Easy",
+    "question": "What happens if a recursive function has no base case?",
+    "choices": {
+      "A": "It returns null",
+      "B": "It executes once",
+      "C": "It causes infinite recursion",
+      "D": "It returns 0"
+    },
+    "correct_answer": "C",
+    "explanation": "Without a base case, the recursive function will continue calling itself indefinitely, leading to infinite recursion."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Medium",
+    "question": "What are the correct statements of base case(s) inside the following recursive search function that returns the position of the searched item in an array or returns -1 if the item is not found?\n\nint recSearch(int A[], int size, int index, int item) {\n    // base case(s)\n    else\n        return recSearch(A, size, index + 1, item);\n}",
+    "choices": {
+      "A": "if(index >= size) return -1; else if(A[index] == item) return index;",
+      "B": "if(index >= size) return -1;",
+      "C": "if(index >= size) return index; else if(A[index] == item) return -1;",
+      "D": "if(A[index] == item) return index;"
+    },
+    "correct_answer": "A",
+    "explanation": "The correct base cases for a recursive search function must handle: (1) when the index goes out of bounds (return -1), and (2) when the item is found at the current index (return that index). Option A correctly checks both conditions."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Medium",
+    "question": "Consider the following recursive function:\n\nint recFun(int x, int y) {\n    if (x == y) return x;\n    else if (x > y) return x + y;\n    else return recFun(x + 1, y - 1);\n}\n\nWhat is the output of executing this: cout << recFun(3, 9) << endl;",
+    "choices": {
+      "A": "3",
+      "B": "9",
+      "C": "6",
+      "D": "12"
+    },
+    "correct_answer": "C",
+    "explanation": "Starting with x = 3 and y = 9:\n- recFun(3,9) \u2192 recFun(4,8)\n- recFun(4,8) \u2192 recFun(5,7)\n- recFun(5,7) \u2192 recFun(6,6)\nAt this point, x == y, so return x, which is 6."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Medium",
+    "question": "What does isPalindrome(121) return?\n\nbool isPalindrome(int n, int temp = 0) {\n    if (n == 0) return temp == 0 || temp == n;\n    return isPalindrome(n / 10, temp * 10 + n % 10);\n}",
+    "choices": {
+      "A": "true",
+      "B": "false"
+    },
+    "correct_answer": "A",
+    "explanation": "This function builds the reverse of n in temp.\nFor n = 121:\n- First call: n = 121, temp = 0\n- Next call: n = 12, temp = 1\n- Next call: n = 1, temp = 12\n- Last call: n = 0, temp = 121\nSince n = 0 and temp = 121, and the original n is also 121, it returns true."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Medium",
+    "question": "What is the output of this code?\n\nint factorial(int n) {\n    if (n == 0) return 1;\n    return n * factorial(n - 1);\n}\n\ncout << factorial(3);",
+    "choices": {
+      "A": "3",
+      "B": "6",
+      "C": "9",
+      "D": "1"
+    },
+    "correct_answer": "B",
+    "explanation": "The function factorial(3) is evaluated as:\n- factorial(3) = 3 * factorial(2)\n- factorial(2) = 2 * factorial(1)\n- factorial(1) = 1 * factorial(0)\n- factorial(0) = 1\nThus, factorial(3) = 3 * 2 * 1 * 1 = 6."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Hard",
+    "question": "Consider the following function:\n\nint fun(int x) {\n    if (x == 0) return 1;\n    else if (x == 1) return 2;\n    else return (fun(x - 1) + fun(x - 2));\n}\n\nWhat is the output of the following statement?\ncout << fun(5) << endl;",
+    "choices": {
+      "A": "21",
+      "B": "16",
+      "C": "13",
+      "D": "10"
+    },
+    "correct_answer": "C",
+    "explanation": "This is a modified Fibonacci sequence.\n- fun(5) = fun(4) + fun(3)\n- fun(4) = fun(3) + fun(2) = 5 + 3 = 8\n- fun(3) = fun(2) + fun(1) = 3 + 2 = 5\nThus, fun(5) = 8 + 5 = 13."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Hard",
+    "question": "What is the output of the following program?\n\n#include <iostream>\nusing namespace std;\nint fun(int x) {\n    if (x == 1)\n        return 1;\n    else\n        return x + fun(x);\n}\n\nint main() {\n    cout << fun(4) << endl;\n    return 0;\n}",
+    "choices": {
+      "A": "The program runs and it is an example of infinite recursion",
+      "B": "The program runs and the output is (x) multiplied by 4",
+      "C": "The program runs and generates random output",
+      "D": "The program does not run as there is a compile-time error"
+    },
+    "correct_answer": "A",
+    "explanation": "The function fun(x) calls itself with the same argument x, leading to infinite recursion since the value of x never changes and there's no way to reach the base case."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Hard",
+    "question": "Consider the following function:\n\nint fun(int a, int b) {\n    if (a == 1 || a == 2)\n        return b;\n    else\n        return fun(a - 2, b - 2) + fun(a - 1, b - 1);\n}\n\nWhat is the output of the following statement?\ncout << fun(4, 3) << endl;",
+    "choices": {
+      "A": "8",
+      "B": "2",
+      "C": "6",
+      "D": "5"
+    },
+    "correct_answer": "B",
+    "explanation": "Tracing:\n- fun(4,3) = fun(2,1) + fun(3,2)\n- fun(2,1) = 1 (base case)\n- fun(3,2) = fun(1,0) + fun(2,1)\n- fun(1,0) = 0 (base case)\n- fun(2,1) = 1 (base case)\nThus, fun(3,2) = 0 + 1 = 1\nFinally, fun(4,3) = 1 + 1 = 2."
+  },
+  {
+    "topic": "Recursion",
+    "difficulty": "Hard",
+    "question": "What is the time complexity of the recursive Fibonacci function?",
+    "choices": {
+      "A": "O(n)",
+      "B": "O(n\u00b2)",
+      "C": "O(2\u207f)",
+      "D": "O(log n)"
+    },
+    "correct_answer": "C",
+    "explanation": "The recursive Fibonacci function makes two recursive calls for each non-base case, leading to exponential time complexity O(2\u207f)."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Easy",
+    "question": "We can't write a recursive function to build a sequential search algorithm.",
+    "choices": {
+      "A": "True",
+      "B": "False"
+    },
+    "correct_answer": "B",
+    "explanation": "A sequential search algorithm can be implemented recursively by examining one element at each recursive call and making a recursive call with the next index if the current element doesn't match."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Easy",
+    "question": "In binary search, what is the average time complexity?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n log n)"
+    },
+    "correct_answer": "C",
+    "explanation": "Binary search repeatedly divides the search space in half, resulting in a logarithmic time complexity of O(log n)."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Easy",
+    "question": "What is the best time complexity and average time complexity for the linear search?",
+    "choices": {
+      "A": "O(n) - O(n)",
+      "B": "O(log n) - O(n)",
+      "C": "O(1) - O(n)",
+      "D": "O(1) - O(log n)"
+    },
+    "correct_answer": "C",
+    "explanation": "In the best case, the element is found at the first position (O(1)). In the average case, we need to search through half the elements on average (O(n))."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Easy",
+    "question": "What is the primary requirement for binary search to work?",
+    "choices": {
+      "A": "Array must be unsorted",
+      "B": "Array must be sorted",
+      "C": "Array must have even number of elements",
+      "D": "Array must have odd number of elements"
+    },
+    "correct_answer": "B",
+    "explanation": "Binary search requires the array to be sorted to correctly determine which half to search."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Medium",
+    "question": "Consider the following list: 4, 8, 20, 21, 35, 44, 49, 52, 70. Suppose we are using the binary search algorithm to find the value 3, what is the order of comparisons?",
+    "choices": {
+      "A": "35, 49, 70",
+      "B": "35, 8, 4",
+      "C": "35, 20, 4",
+      "D": "35, 52, 70"
+    },
+    "correct_answer": "B",
+    "explanation": "First comparison is with the middle element 35. Since 3 < 35, we search in the left half: 4,8,20,21. The middle element is 8. Since 3 < 8, we search in the left half: 4. Since 3 < 4, the element is not found."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Medium",
+    "question": "Which searching algorithm uses the \"divide and conquer\" strategy?",
+    "choices": {
+      "A": "Linear Search",
+      "B": "Binary Search",
+      "C": "Interpolation Search",
+      "D": "Jump Search"
+    },
+    "correct_answer": "B",
+    "explanation": "Binary search divides the search space in half at each step, making it a clear example of the divide and conquer strategy."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Medium",
+    "question": "What is the worst-case time complexity for linear probing insertion in hashing?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "B",
+    "explanation": "In the worst case of linear probing, when many keys hash to the same position (clustering), we may need to check every position in the hash table before finding an empty slot."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Medium",
+    "question": "In linear probing, if h(key) = 5 and position 5 is occupied, what is the next position to check?",
+    "choices": {
+      "A": "4",
+      "B": "6",
+      "C": "10",
+      "D": "0"
+    },
+    "correct_answer": "B",
+    "explanation": "Linear probing checks the next consecutive position, which is 5 + 1 = 6."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Hard",
+    "question": "What is the average-case time complexity of linear probing in hashing?",
+    "choices": {
+      "A": "O(1)",
+      "B": "O(n)",
+      "C": "O(log n)",
+      "D": "O(n\u00b2)"
+    },
+    "correct_answer": "A",
+    "explanation": "In the average case with a properly sized hash table (load factor < 0.7), linear probing takes constant time. The expected number of probes is approximately 1/(1-\u03b1) where \u03b1 is the load factor."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Hard",
+    "question": "Which of the following is not a type of open addressing in hashing?",
+    "choices": {
+      "A": "Linear Probing",
+      "B": "Quadratic Probing",
+      "C": "Double Hashing",
+      "D": "Chaining"
+    },
+    "correct_answer": "D",
+    "explanation": "Chaining is a collision resolution technique where each bucket contains a linked list of all key-value pairs that hash to the same location. It's separate from open addressing techniques (linear probing, quadratic probing, and double hashing) which find alternative locations within the hash table itself."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Hard",
+    "question": "Which of the following is a disadvantage of linear probing in hashing?",
+    "choices": {
+      "A": "Clustering of elements",
+      "B": "Requires frequent rehashing",
+      "C": "Difficulty in finding empty slots",
+      "D": "Slower retrieval time"
+    },
+    "correct_answer": "A",
+    "explanation": "Linear probing suffers from primary clustering, where consecutive occupied slots form groups that grow larger as more collisions occur, reducing the efficiency of operations."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Hard",
+    "question": "Given a hashtable that has a capacity of 8. Assuming that the hashtable uses Linear Probing to handle collisions, what array position (index) will hold the value \"41\" while adding the following numbers?\n11 24 6 33 41",
+    "choices": {
+      "A": "1",
+      "B": "3",
+      "C": "2",
+      "D": "7"
+    },
+    "correct_answer": "C",
+    "explanation": "Using h(x) = x mod 8: h(11)=3, h(24)=0, h(6)=6, h(33)=1, h(41)=1. But position 1 is already occupied by 33, so we use linear probing to find the next available slot, which is position 2."
+  },
+  {
+    "topic": "Hashing",
+    "difficulty": "Hard",
+    "question": "In double hashing, if h1(key) = 5 and h2(key) = 3, what is the second position to check if the first is occupied?",
+    "choices": {
+      "A": "5 + 3 = 8",
+      "B": "5 + 2*3 = 11",
+      "C": "5 * 3 = 15",
+      "D": "5 - 3 = 2"
+    },
+    "correct_answer": "A",
+    "explanation": "In double hashing, the second position is h1(key) + h2(key) = 5 + 3 = 8."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Easy",
+    "question": "In binary trees, the Level of a node is:",
+    "choices": {
+      "A": "Number of branches on the path from the root to that node.",
+      "B": "Number of branches on the path from the root to a leaf node.",
+      "C": "Number of nodes on the path from the root to that node.",
+      "D": "Number of nodes on the longest path from the root to a leaf node."
+    },
+    "correct_answer": "A",
+    "explanation": "The level of a node in a binary tree is determined by the number of branches (or edges) on the path from the root to that node. The root is at level 0."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Easy",
+    "question": "What is the last value printed in Inorder sequence of a binary search tree with values 78, 32, 89, 28, 46, 60, 98, 53?",
+    "choices": {
+      "A": "98",
+      "B": "53",
+      "C": "78",
+      "D": "28"
+    },
+    "correct_answer": "A",
+    "explanation": "Inorder traversal of a BST visits nodes in ascending order. For these values, the inorder sequence would be 28, 32, 46, 53, 60, 78, 89, 98, making 98 the last value printed."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Easy",
+    "question": "What is the height of a tree with only a root node?",
+    "choices": {
+      "A": "0",
+      "B": "1",
+      "C": "2",
+      "D": "-1"
+    },
+    "correct_answer": "B",
+    "explanation": "A tree with only a root node has height 1, as height is the number of nodes on the longest path from root to leaf."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Medium",
+    "question": "Which order traversal is used in the function copyTree that makes a copy of a binary tree?",
+    "choices": {
+      "A": "Preorder",
+      "B": "Inorder",
+      "C": "Postorder",
+      "D": "Any order can be used to copy a binary tree"
+    },
+    "correct_answer": "A",
+    "explanation": "Preorder traversal (visit root, then left subtree, then right subtree) is typically used for copying a binary tree because it allows us to create the root node first, then recursively create the left and right subtrees."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Medium",
+    "question": "Which of the following is the correct function to find the number of leaves in a binary tree?",
+    "choices": {
+      "A": "int binaryTreeType::leavesCount(binaryTreeNode *p) const {\n    if (p == NULL)\n        return 0;\n    else if (p->llink == NULL && p->rlink == NULL)\n        return 1;\n    else\n        return leavesCount(p->llink) + leavesCount(p->rlink);\n}",
+      "B": "int binaryTreeType::leavesCount(binaryTreeNode *p) const {\n    if (p->llink == NULL && p->rlink == NULL)\n        return 1;\n    else\n        return leavesCount(p->llink) + leavesCount(p->rlink);\n}",
+      "C": "int binaryTreeType::leavesCount(binaryTreeNode *p) const {\n    if (p == NULL)\n        return 0;\n    else if (p->llink == NULL && p->rlink == NULL)\n        return 1;\n    else {\n        leavesCount(p->llink);\n        leavesCount(p->rlink);\n    }\n}",
+      "D": "int binaryTreeType::leavesCount(binaryTreeNode *p) const {\n    if (p->llink == NULL && p->rlink == NULL)\n        return 0;\n    else\n        return 1 + leavesCount(p->llink) + leavesCount(p->rlink);\n}"
+    },
+    "correct_answer": "A",
+    "explanation": "This function correctly counts leaf nodes by:\n1) Returning 0 for NULL nodes,\n2) Returning 1 for leaf nodes (nodes with no children),\n3) Recursively summing the leaf counts of the left and right subtrees for non-leaf nodes."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Medium",
+    "question": "In a binary search tree, where do you find the smallest element?",
+    "choices": {
+      "A": "The root",
+      "B": "The leftmost node",
+      "C": "The rightmost node",
+      "D": "Any leaf node"
+    },
+    "correct_answer": "B",
+    "explanation": "In a BST, the smallest element is always the leftmost node (traverse left until you can't go further)."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "question": "The following recursive function finds the number of internal nodes (non-leaf nodes) in a binary search tree. Each node is based on the following structure:\n```\nstruct nodeType {\n    int info;\n    nodeType *left;\n    nodeType *right;\n};\n```\n```\nint binarySearchTree::fun(nodeType *p) {\n    if(p == NULL)\n        return 0;\n    else if (-------------------------------------)//Line 1\n        return 0;\n    else\n        return 1 + fun(p->left) + fun(p->right);\n}\n```",
+    "choices": {
+      "A": "p->left == NULL && p->right == NULL",
+      "B": "p->left != NULL || p->right != NULL",
+      "C": "p->left == NULL || p->right == NULL",
+      "D": "p->left != NULL && p->right != NULL"
+    },
+    "correct_answer": "A",
+    "explanation": "To count internal nodes (non-leaf nodes), we need to exclude leaf nodes. A leaf node has both left and right pointers as NULL. The condition 'p->left == NULL && p->right == NULL' identifies a leaf node, returning 0 for it (not counted as internal)."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "question": "The following recursive function finds the number of single-left parent nodes (the nodes that have a left child but not a right child) in a binary search tree. Each node is based on the following structure:\n```\nstruct nodeType {\n    int info;\n    nodeType *left;\n    nodeType *right;\n};\n```\nAnd the function is implemented as follows:\n```\nint binarySearchTree::fun(nodeType *p) {\n    if (p == NULL)\n        return 0;\n    else if (-------------------------)//Line 1\n        return 1 + fun(p->left) + fun(p->right);\n    else\n        return fun(p->left) + fun(p->right);\n}\n```\nWhich of the following statements should be inserted in line 1?",
+    "choices": {
+      "A": "p->left != NULL && p->right == NULL",
+      "B": "p->left == NULL && p->right != NULL",
+      "C": "p->left != NULL || p->right == NULL",
+      "D": "p->left == NULL || p->right != NULL"
+    },
+    "correct_answer": "A",
+    "explanation": "A single-left parent node has a left child but no right child. The condition 'p->left != NULL && p->right == NULL' correctly identifies such nodes."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "question": "A binary search tree is generated by inserting the following integers:\n50, 15, 62, 5, 20, 58, 91, 3, 8, 37, 16, 24\nThe number of nodes in the left subtree and right subtree of the root respectively is?",
+    "choices": {
+      "A": "8,3",
+      "B": "7,4",
+      "C": "4,8",
+      "D": "7,5"
+    },
+    "correct_answer": "A",
+    "explanation": "The root is 50. Left subtree contains nodes less than 50: 15, 5, 20, 3, 8, 37, 16, 24 (8 nodes). Right subtree contains nodes greater than 50: 62, 58, 91 (3 nodes)."
+  },
+  {
+    "topic": "Trees",
+    "difficulty": "Hard",
+    "question": "When deleting a node with two children in a BST, what replaces it?",
+    "choices": {
+      "A": "Its left child",
+      "B": "Its right child",
+      "C": "Its inorder predecessor",
+      "D": "Any of its children"
+    },
+    "correct_answer": "C",
+    "explanation": "When deleting a node with two children, it's replaced with its inorder predecessor (the largest element in its left subtree)."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Easy",
+    "question": "The number of elements in the adjacency matrix of a graph having 6 vertices is:",
+    "choices": {
+      "A": "49",
+      "B": "25",
+      "C": "12",
+      "D": "36"
+    },
+    "correct_answer": "D",
+    "explanation": "An adjacency matrix for a graph with n vertices is an n\u00d7n matrix. For 6 vertices, the matrix size is 6\u00d76 = 36 elements."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Easy",
+    "question": "In an undirected graph, if vertices A and B are connected by an edge, we say:",
+    "choices": {
+      "A": "A is adjacent to B only",
+      "B": "B is adjacent to A only",
+      "C": "A and B are adjacent to each other",
+      "D": "Neither is adjacent"
+    },
+    "correct_answer": "C",
+    "explanation": "In an undirected graph, adjacency is bidirectional - if A is connected to B, then B is connected to A."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "question": "Which of these adjacency matrices represents a simple graph?\nNote: [[a11,a12,a13],[a21,a22,a33],[a31,a32,a33]] is equivalent to [matrix representation]",
+    "choices": {
+      "A": "[[1,0,0],[0,1,0],[0,1,1]]",
+      "B": "[[0,1,0],[1,1,1],[1,0,0]]",
+      "C": "[[0,0,1],[0,0,0],[0,0,1]]",
+      "D": "[[0,0,1],[1,0,0],[0,1,0]]"
+    },
+    "correct_answer": "D",
+    "explanation": "A simple graph has no self-loops (diagonal elements are 0) and no parallel edges (all entries are 0 or 1). Also, for undirected graphs, the matrix must be symmetric. Option D satisfies these conditions."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Medium",
+    "question": "What data structure is typically used in breadth-first traversal?",
+    "choices": {
+      "A": "Stack",
+      "B": "Queue",
+      "C": "Array",
+      "D": "Linked List"
+    },
+    "correct_answer": "B",
+    "explanation": "Breadth-first traversal uses a queue to process nodes level by level."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "question": "When applying the shortest path algorithm for a graph starting from vertex A; after finishing the second iteration what will be the content of smallestWeight matrix?\nThe values are inserted in the matrix in the following order [A, B, C, D, E, F]",
+    "choices": {
+      "A": "[0,4,9,12,13,24]",
+      "B": "[0,4,9,12,16,24]",
+      "C": "[0,4,9,12,13,18]",
+      "D": "[0.4.9.14,16,\u221e]"
+    },
+    "correct_answer": "B",
+    "explanation": "After the second iteration of Dijkstra's algorithm, the shortest paths from vertex A to vertices A, B, and the next two closest vertices (typically C and D) would have been finalized. The remaining entries (E and F) would contain tentative distances based on the paths found so far."
+  },
+  {
+    "topic": "Graphs",
+    "difficulty": "Hard",
+    "question": "In an adjacency matrix for an undirected graph, what is true about the matrix?",
+    "choices": {
+      "A": "It is asymmetric",
+      "B": "It is symmetric",
+      "C": "All diagonal elements are 1",
+      "D": "All elements are 0"
+    },
+    "correct_answer": "B",
+    "explanation": "For undirected graphs, the adjacency matrix is symmetric because if vertex i is connected to vertex j, then vertex j is connected to vertex i."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Easy",
+    "question": "How does selection sort work?",
+    "choices": {
+      "A": "It searches for the smallest element and then replaces it sequentially from first to last",
+      "B": "It searches for the second smallest element, places it in the first place, and then repeats this process",
+      "C": "It's lazy so it just calls a sorting library and calls the sorting process directly",
+      "D": "None"
+    },
+    "correct_answer": "A",
+    "explanation": "Selection sort works by finding the minimum element from the unsorted portion and swapping it with the element at the current position, moving from left to right through the array."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Easy",
+    "question": "What is the complexity of selection sorting?",
+    "choices": {
+      "A": "O(n!)",
+      "B": "O(n\u00b2)",
+      "C": "O(n)",
+      "D": "O(1)"
+    },
+    "correct_answer": "B",
+    "explanation": "Selection sort requires two nested loops - one to iterate through each position in the array (n iterations) and another to find the minimum element in the unsorted portion (approximately n/2 iterations on average), resulting in O(n\u00b2) complexity."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Easy",
+    "question": "What is the best-case time complexity of insertion sort?",
+    "choices": {
+      "A": "O(n\u00b2)",
+      "B": "O(n)",
+      "C": "O(n log n)",
+      "D": "O(1)"
+    },
+    "correct_answer": "B",
+    "explanation": "The best case for insertion sort is when the array is already sorted, requiring only one pass with no shifts."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "question": "Will the following code correctly implement selection sort?\n\ntemplate<class elemType>\nvoid arraylist<elemType>::selectsort() {\n    int minindex = 0;\n    for (int i = 0; i < length; i++) {\n        minindex = minvalue(i, length - 1);\n        swap(i, minindex);\n    }\n}",
+    "choices": {
+      "A": "True",
+      "B": "False"
+    },
+    "correct_answer": "A",
+    "explanation": "This code correctly implements selection sort by finding the minimum value in the unsorted portion (starting at index i) and swapping it with the element at position i, for each position i from 0 to length-1."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "question": "What is the primary difference in approach between Selection Sort and Insertion Sort?",
+    "choices": {
+      "A": "Selection Sort builds the sorted part by inserting elements, while Insertion Sort selects and swaps elements.",
+      "B": "Selection Sort and Insertion Sort have identical approaches.",
+      "C": "Selection Sort and Insertion Sort both use a divide-and-conquer strategy.",
+      "D": "Selection Sort involves comparing adjacent elements, while Insertion Sort involves selecting and swapping elements.",
+      "E": "Insertion Sort builds the sorted part by inserting elements, while Selection Sort selects and swaps elements."
+    },
+    "correct_answer": "E",
+    "explanation": "Selection Sort finds the minimum element from the unsorted portion and swaps it with the element at the current position. Insertion Sort takes elements from the unsorted portion and inserts them into their correct position in the sorted portion."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "question": "In terms of swaps, how does Selection Sort compare to Insertion Sort?",
+    "choices": {
+      "A": "Selection Sort generally performs fewer swaps than Insertion Sort.",
+      "B": "Insertion Sort generally performs fewer swaps than Selection Sort.",
+      "C": "Both algorithms perform the same number of swaps.",
+      "D": "The number of swaps depends on the initial order of the elements."
+    },
+    "correct_answer": "A",
+    "explanation": "Selection Sort performs at most n swaps (one for each position in the array), while Insertion Sort may require up to O(n\u00b2) swaps in the worst case when the array is in reverse order."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Medium",
+    "question": "In merge sort, what is the key operation in the combine step?",
+    "choices": {
+      "A": "Swapping elements",
+      "B": "Finding minimum",
+      "C": "Merging two sorted arrays",
+      "D": "Partitioning the array"
+    },
+    "correct_answer": "C",
+    "explanation": "The combine step in merge sort involves merging two already sorted subarrays into one sorted array."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Hard",
+    "question": "What is the time complexity of Merge Sort in the worst case?",
+    "choices": {
+      "A": "O(n)",
+      "B": "O(n log n)",
+      "C": "O(n\u00b2)",
+      "D": "O(log n)"
+    },
+    "correct_answer": "B",
+    "explanation": "Merge Sort divides the array into halves (log n levels) and merges them back (each level takes O(n) time), resulting in O(n log n) time complexity even in the worst case."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Hard",
+    "question": "Which phase of Merge Sort involves breaking down the input array into smaller subarrays until each subarray contains only one element?",
+    "choices": {
+      "A": "Merging",
+      "B": "Partitioning",
+      "C": "Splitting",
+      "D": "Combining"
+    },
+    "correct_answer": "C",
+    "explanation": "The splitting phase of Merge Sort involves recursively dividing the input array into smaller subarrays until each subarray contains only one element, which is inherently sorted."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Hard",
+    "question": "Which sorting algorithm typically performs the fewest number of swaps?",
+    "choices": {
+      "A": "Merge Sort",
+      "B": "Selection Sort",
+      "C": "Insertion Sort",
+      "D": "They perform a similar number of swaps"
+    },
+    "correct_answer": "A",
+    "explanation": "Merge Sort doesn't use swaps in the traditional sense - it merges elements by copying them to a temporary array and back. Selection Sort performs at most O(n) swaps, while Insertion Sort can perform up to O(n\u00b2) swaps in the worst case."
+  },
+  {
+    "topic": "Sorting",
+    "difficulty": "Hard",
+    "question": "For selection sort, what is the number of swaps in the worst case for an array of n elements?",
+    "choices": {
+      "A": "n",
+      "B": "n-1",
+      "C": "n\u00b2",
+      "D": "n/2"
+    },
+    "correct_answer": "B",
+    "explanation": "Selection sort performs at most n-1 swaps, one for each position except the last."
+  }
+]
