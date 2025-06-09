@@ -5,7 +5,7 @@ An intelligent Telegram bot designed for Computer Science students to practice *
 ## 🌟 Features
 
 ### 📚 Learning Modes
-- **Adaptive Tests** - AI-powered difficulty adjustment based on performance
+- **Adaptive Tests** - difficulty adjustment based on performance
 - **Mimic Exams** - Simulate real CS211 exams (First/Second/Final)
 - **Mini Tests** - Focused practice on weak topics
 - **Reevaluation Tests** - Retry failed topics with structured difficulty progression
