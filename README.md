@@ -158,5 +158,5 @@ For support and suggestions:
 ---
 
 <div align="center">
-  <strong>Built with ❤️ for Computer Science Education</strong>
+  <strong>Built for Computer Science Education</strong>
 </div>
