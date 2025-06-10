@@ -1,6 +1,4 @@
--- Database schema for JUSTLearn Bot SQLite migration
--- This maintains 100% functionality while switching from JSON to SQLite
-
+-- Database schema for JUSTLearn Bot 
 -- MCQs table - stores all multiple choice questions
 CREATE TABLE mcqs (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
