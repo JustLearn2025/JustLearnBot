@@ -690,7 +690,7 @@ def load_progress_data(user_id: str, data_dir: str = "data") -> List[Dict]:
         return []
 
 def restore_reminder_jobs_from_db(application) -> None:
-    """Restore reminder jobs for all users who have reminders enabled (from database)."""
+    """Restore reminder jobs for all users who have reminders enabled."""
     try:
         # Jordan timezone
         jordan_tz = pytz.timezone('Asia/Amman')
@@ -739,7 +739,6 @@ def restore_reminder_jobs_from_db(application) -> None:
 def generate_progress_chart(progress_data: List[Dict], texts: Dict = None) -> BytesIO:
     """
     Generate a clear, readable line chart showing user's quiz progress over time.
-    Always uses English text regardless of user language to avoid rendering issues.
     
     Args:
         progress_data: List of progress entries with 'date' and 'score' keys
@@ -807,7 +806,7 @@ def generate_progress_chart(progress_data: List[Dict], texts: Dict = None) -> By
         
         ax.set_xticklabels(labels, fontsize=12, rotation=0)
         
-        # Enhanced grid
+        # grid
         plt.grid(True, alpha=0.3, linestyle='-', linewidth=1, color='#BDC3C7')
         ax.set_axisbelow(True)
         
@@ -863,7 +862,6 @@ def generate_progress_chart(progress_data: List[Dict], texts: Dict = None) -> By
 def record_quiz_progress(user_id: str, test_results: Dict) -> None:
     """
     Record quiz progress after test completion.
-    This function should be called after any quiz/exam completion.
     
     Args:
         user_id: Telegram user ID
@@ -899,7 +897,7 @@ def get_user_data(user_id: str) -> Dict:
     }
 
 def has_active_test(user_id: str) -> bool:
-    """Check if user has an active test session with NUCLEAR advanced reevaluation clearing."""
+    """Check if user has an active test session with advanced reevaluation clearing."""
     # If user doesn't exist in data, definitely no active session
     if user_id not in user_data:
         return False
@@ -917,7 +915,7 @@ def has_active_test(user_id: str) -> bool:
         logger.warning(f"Empty session for user {user_id}, cleared it")
         return False
     
-    # FIXED: Check for completed adaptive test sessions
+    # Check for completed adaptive test sessions
     test_type = session.get("test_type", "")
     if test_type == "Adaptive Test":
         remaining_topics = session.get("remaining_topics", [])
@@ -928,16 +926,16 @@ def has_active_test(user_id: str) -> bool:
             save_user_data()
             return False
     
-    # CRITICAL FIX: NUCLEAR clearing of completed advanced reevaluation sessions
+    # clearing of completed advanced reevaluation sessions
     if "Advanced Reevaluation" in test_type:
         questions = session.get("questions", [])
         current_index = session.get("current_question_index", 0)
         
-        # If advanced reevaluation test completed (index >= questions length), NUKE IT
+        # If advanced reevaluation test completed (index >= questions length), clear it
         if current_index >= len(questions):
             logger.warning(f"NUCLEAR: Clearing completed advanced reevaluation session for user {user_id}")
             
-            # COMPLETE NUCLEAR RESET
+            # COMPLETE RESET
             user_data[user_id]["current_test_session"] = None
             
             # Clear ALL session-related data
@@ -953,7 +951,7 @@ def has_active_test(user_id: str) -> bool:
             save_user_data()
             return False
         
-        # ADDITIONAL FIX: Check for stale advanced reevaluation sessions
+        # Check for stale advanced reevaluation sessions
         session_id = session.get("session_id")
         active_session_id = user_data[user_id].get("active_session_ids", {}).get("reevaluation")
         
@@ -965,7 +963,7 @@ def has_active_test(user_id: str) -> bool:
             save_user_data()
             return False
     
-    # ADDITIONAL FIX: Clear any reevaluation session that's been hanging around too long
+    # Clear any reevaluation session that's been hanging around too long
     if "Reevaluation" in test_type:
         try:
             start_time = datetime.strptime(session["start_time"], "%Y-%m-%d %H:%M:%S")
@@ -1070,7 +1068,7 @@ def enhance_exam_question_selection(questions: List[Dict], target_count: int) ->
             random.shuffle(unique_questions)
         return unique_questions
     
-    # Enhanced shuffling before selection
+    # shuffling before selection
     for _ in range(10):  # More rounds for larger pools
         random.shuffle(unique_questions)
     
@@ -1116,7 +1114,7 @@ def enhance_exam_question_selection(questions: List[Dict], target_count: int) ->
     return selected[:target_count]
 
 def get_random_question_by_topic_and_difficulty(topic: str, difficulty: str, all_mcqs: List[Dict]) -> Optional[Dict]:
-    """Get a random question with the specified topic and difficulty with enhanced shuffling."""
+    """Get a random question with the specified topic and difficulty with shuffling."""
     # Standardize difficulty
     std_difficulty = DIFFICULTY_MAPPING.get(difficulty.lower(), difficulty)
     
@@ -1194,7 +1192,7 @@ def get_random_question_by_topic_and_difficulty(topic: str, difficulty: str, all
     if not matching_questions:
         return None
     
-    # ENHANCED: Multiple rounds of shuffling for better randomization
+    # Multiple rounds of shuffling for better randomization
     for _ in range(5):  # More shuffling rounds
         random.shuffle(matching_questions)
     
@@ -1223,9 +1221,6 @@ def get_random_question_by_topic_and_difficulty(topic: str, difficulty: str, all
 
 async def show_exam_completion(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: str, test_results: Dict) -> None:
     """Show a detailed exam completion summary with all questions and explanations.
-    
-    Located in: simple_bot.py (standalone function)
-    
     Args:
         update: Telegram update object
         context: Telegram context object
@@ -1303,8 +1298,8 @@ async def show_exam_completion(update: Update, context: ContextTypes.DEFAULT_TYP
 
 # Adaptive test functions
 def start_adaptive_test_session(user_id: str, topics: List[str]) -> None:
-    """Initialize an adaptive test session with enhanced duplicate tracking"""
-    # Use database directly instead of user_data
+    """Initialize an adaptive test session with duplicate tracking"""
+    # Use database 
     session_data = {
         "test_type": "Adaptive Test",
         "start_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -1323,7 +1318,7 @@ def start_adaptive_test_session(user_id: str, topics: List[str]) -> None:
         "hard_failures_count": {},
         "easy_attempts_after_medium": {},
         "came_from_hard_failure": {},
-        # ENHANCED: Add global question tracking
+        # Add global question tracking
         "used_question_hashes": set()  # This will be converted to list for JSON storage
     }
     
@@ -1357,7 +1352,7 @@ def get_current_adaptive_topic(user_id: str) -> Optional[str]:
     return remaining_topics[0]
 
 def set_current_adaptive_question(user_id: str, question: Dict) -> None:
-    """Set the current question in the adaptive test session with enhanced tracking"""
+    """Set the current question in the adaptive test session with tracking"""
     # Get current session from database
     session = db_manager.load_user_session(user_id)
     
@@ -1491,7 +1486,7 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
             "needs_more_training": needs_more_training
         }
         
-        # CRITICAL FIX: Save test to database BEFORE clearing session
+        # Save test to database BEFORE clearing session
         db_manager.save_user_test(user_id, test_result)
         
         # Add to adaptive tests history
@@ -1543,7 +1538,7 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
                 # ALSO save to database
                 db_manager.add_needs_training_topic(user_id, topic)
         
-        # FIXED: Clear session from BOTH global cache and database when completing
+        # Clear session from BOTH global cache and database when completing
         if result_type == "complete":
             user_info["current_test_session"] = None
             db_manager.clear_user_session(user_id)
@@ -1552,7 +1547,7 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
     save_user_data()
 
 def start_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Dict]) -> Dict:
-    """Start a reevaluation test for a specific topic - SIMPLIFIED"""
+    """Start a reevaluation test for a specific topic """
     try:
         logger.info(f"Starting reevaluation for topic {topic} for user {user_id}")
         
@@ -1583,7 +1578,7 @@ def start_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Dict]) -> D
         import uuid
         session_id = str(uuid.uuid4())
         
-        # Create a SIMPLE reevaluation test session - SEQUENTIAL PROCESSING
+        # Create a reevaluation test session - SEQUENTIAL PROCESSING
         session_data = {
             "test_type": f"Reevaluation: {topic}",
             "start_time": datetime.now().strftime("%Y-%m-%d %H:%M:%S"),
@@ -1600,7 +1595,7 @@ def start_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Dict]) -> D
         # Save to database AND update cache 
         db_manager.save_user_session(user_id, session_data)
         
-        # CRITICAL: Update user_data cache so send_question works correctly
+        # Update user_data cache so send_question works correctly
         if user_id not in user_data:
             user_data[user_id] = get_user_data(user_id)
         user_data[user_id]["current_test_session"] = session_data
@@ -1620,12 +1615,11 @@ def start_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Dict]) -> D
         return {"error": f"Error starting reevaluation test: {str(e)}"}
 
 def start_advanced_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Dict]) -> Dict:
-    """Start an advanced reevaluation test with SIMPLE session management"""
+    """Start an advanced reevaluation test with session management"""
     try:
         logger.info(f"Starting advanced reevaluation for topic {topic} for user {user_id}")
         
-        # CRITICAL FIX: Don't use get_user_data(), work directly with database
-        # Clear session from database directly
+        # Clear session from database 
         db_manager.clear_user_session(user_id)
         
         # Also clear from cache if it exists
@@ -1696,16 +1690,16 @@ def start_advanced_reevaluation_test(user_id: str, topic: str, all_mcqs: List[Di
             "is_sequential": True
         }
         
-        # Save to database AND update cache (CRITICAL FIX)
+        # Save to database AND update cache 
         db_manager.save_user_session(user_id, session_data)
         
-        # CRITICAL FIX: Update cache so send_question can detect correct test type
+        #  Update cache so send_question can detect correct test type
         if user_id not in user_data:
             user_data[user_id] = get_user_data(user_id)
         user_data[user_id]["current_test_session"] = session_data
         save_user_data()
         
-        # VERIFICATION: Immediately check if session was saved
+        # VERIFICATION:check if session was saved
         verification_session = db_manager.load_user_session(user_id)
         if not verification_session:
             logger.error(f"CRITICAL: Session was not saved to database for user {user_id}")
@@ -1776,7 +1770,6 @@ def determine_next_adaptive_action(is_correct: bool, current_difficulty: str, cu
             }
         elif current_difficulty == "Hard":
             # First hard failure - go to medium with flag set
-            # (2nd failure case handled earlier in process_adaptive_answer)
             return {
                 "type": "warning",
                 "topic": current_topic,
@@ -1795,7 +1788,7 @@ def determine_next_adaptive_action(is_correct: bool, current_difficulty: str, cu
     }
 
 def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> Dict:
-    """Process an answer in the adaptive test with improved question tracking"""
+    """Process an answer in the adaptive test with question tracking"""
     try:
         # Get user's language
         lang = get_user_language(user_id)
@@ -1863,7 +1856,7 @@ def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> 
         
         first_state = session["first_question_state"][current_topic]
         
-        # CRITICAL FIX: Handle the special first question sequence FIRST
+        # Handle the special first question sequence FIRST
         if first_state["is_first_question"]:
             if current_difficulty == "Medium":
                 first_state["first_was_medium"] = True
@@ -1944,7 +1937,7 @@ def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> 
                     first_state["is_first_question"] = False
                     # Continue to regular adaptive logic below
         
-        # CRITICAL FIX: Update hard failures count and check immediately
+        # Update hard failures count and check immediately
         if current_difficulty == "Hard" and not is_correct:
             session["hard_failures_count"][current_topic] += 1
             logger.info(f"Hard failure count for {current_topic}: {session['hard_failures_count'][current_topic]}")
@@ -2037,10 +2030,7 @@ def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> 
             "next_action": next_action
         }
         
-        # REMOVED the problematic early termination for Easy wrong
-        # This was causing the second easy chance to be skipped
-        
-        # FIXED: Handle completion cases - Check if more topics before showing completion
+        # Handle completion cases - Check if more topics before showing completion
         if next_action["type"] in ["complete", "offer_reevaluation", "topic_complete"]:
             if next_action["type"] == "topic_complete":
                 # Check if there are more topics BEFORE showing completion message
@@ -2135,7 +2125,7 @@ def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> 
         }
     
 def get_unused_question_by_topic_and_difficulty(user_id: str, topic: str, difficulty: str, all_mcqs: List[Dict]) -> Optional[Dict]:
-    """Get a question that hasn't been used yet with enhanced duplicate prevention."""
+    """Get a question that hasn't been used yet with duplicate prevention."""
     
     # SAFETY CHECK: Handle None difficulty
     if difficulty is None:
@@ -2277,9 +2267,9 @@ def get_unused_question_by_topic_and_difficulty(user_id: str, topic: str, diffic
     return get_random_question_by_topic_and_difficulty(topic, difficulty, all_mcqs)
 
 def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
-    """Process an answer in the NORMAL reevaluation test with SIMPLE SEQUENTIAL LOGIC"""
+    """Process an answer in the NORMAL reevaluation test with SEQUENTIAL LOGIC"""
     try:
-        # GET SESSION FROM DATABASE, NOT CACHE
+        # GET SESSION FROM DATABASE
         session = db_manager.load_user_session(user_id)
         
         # Verify session exists
@@ -2305,11 +2295,11 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
         if current_index >= len(questions):
             return {"error": "No more questions in this test."}
         
-        # Process the answer - SIMPLE SEQUENTIAL LOGIC
+        # Process the answer - SEQUENTIAL LOGIC
         question = questions[current_index]
         is_correct = answer.upper() == question.get("correct_answer", "").upper()
         
-        # Update session data - SIMPLE SEQUENTIAL LOGIC
+        # Update session data - SEQUENTIAL LOGIC
         if "correct_answers" not in session:
             session["correct_answers"] = 0
             
@@ -2324,7 +2314,7 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
             if topic and topic not in session["incorrect_topics"]:
                 session["incorrect_topics"].append(topic)
         
-        # SIMPLE SEQUENTIAL LOGIC: Just move to next question
+        # SEQUENTIAL LOGIC: Just move to next question
         session["current_question_index"] = current_index + 1
         
         # Save updated session TO DATABASE AND UPDATE CACHE
@@ -2388,7 +2378,7 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
             
             result["test_results"] = test_result
         else:
-            # Get next question - SIMPLE: just get the next one in sequence
+            # Get next question - just get the next one in sequence
             result["next_question"] = questions[session["current_question_index"]]
         
         return result
@@ -2403,14 +2393,14 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
         }
     
 def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
-    """Enhanced process reevaluation answer - PURELY SEQUENTIAL FOR ADVANCED REEVAL"""
+    """process reevaluation answer - PURELY SEQUENTIAL FOR ADVANCED REEVAL"""
     try:
         logger.info(f"Processing ADVANCED reevaluation answer for user {user_id}: {answer}")
         
-        # CRITICAL FIX: Get fresh session from database instead of stale cache
+        # Get fresh session from database 
         session = db_manager.load_user_session(user_id)
         
-        # Simple session validation
+        # session validation
         if not session:
             logger.warning(f"No current_test_session found for user {user_id}")
             return {"error": "No active test session. Please start a new test."}
@@ -2425,7 +2415,7 @@ def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
             logger.warning(f"Invalid test type for advanced reevaluation: {test_type}")
             return {"error": "This is not an advanced reevaluation test session."}
         
-        # Get question data - PURELY SEQUENTIAL
+        # Get question data - SEQUENTIAL
         questions = session.get("questions", [])
         current_index = session.get("current_question_index", 0)
         
@@ -2433,11 +2423,11 @@ def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
             logger.warning(f"Question index out of range for user {user_id}: {current_index} >= {len(questions)}")
             return {"error": "No more questions in this test."}
         
-        # Process the answer - SIMPLE SEQUENTIAL LOGIC ONLY
+        # Process the answer - SEQUENTIAL LOGIC ONLY
         question = questions[current_index]
         is_correct = answer.upper() == question.get("correct_answer", "").upper()
         
-        # Update session data - SIMPLE INCREMENTAL
+        # Update session data - INCREMENTAL
         if "correct_answers" not in session:
             session["correct_answers"] = 0
             
@@ -2460,18 +2450,18 @@ def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
             if topic and topic not in session["incorrect_topics"]:
                 session["incorrect_topics"].append(topic)
         
-        # Move to next question - SIMPLE INCREMENT
+        # Move to next question - INCREMENT
         session["current_question_index"] = current_index + 1
         
         # Save to database and update cache
         db_manager.save_user_session(user_id, session)
         
-        # CRITICAL FIX: Update cache to match database
+        # Update cache to match database
         if user_id in user_data:
             user_data[user_id]["current_test_session"] = session
         save_user_data()
         
-        # Check if test is completed - SIMPLE INDEX CHECK
+        # Check if test is completed - INDEX CHECK
         test_completed = session["current_question_index"] >= len(questions)
         
         result = {
@@ -2528,7 +2518,7 @@ def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
             
             result["test_results"] = test_result
         else:
-            # Get next question - SIMPLE SEQUENTIAL: just get the next one in sequence
+            # Get next question - SEQUENTIAL: just get the next one in sequence
             if session["current_question_index"] < len(questions):
                 result["next_question"] = questions[session["current_question_index"]]
             else:
@@ -2736,12 +2726,12 @@ async def list_jobs_command(update: Update, context: ContextTypes.DEFAULT_TYPE) 
         await update.message.reply_text(f"❌ Error listing jobs: {str(e)}")
 
 async def adaptive_test_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle the /adaptive_test command with nuclear session clearing."""
+    """Handle the /adaptive_test command with session clearing."""
     user_id = str(update.effective_user.id)
     lang = get_user_language(user_id)
     texts = TEXTS[lang]
     
-    # NUCLEAR SESSION CLEARING - clear any remnants
+    # SESSION CLEARING - clear any remnants
     if user_id in user_data:
         user_info = user_data[user_id]
         session = user_info.get("current_test_session")
@@ -2749,7 +2739,7 @@ async def adaptive_test_command(update: Update, context: ContextTypes.DEFAULT_TY
         if session:
             test_type = session.get("test_type", "")
             
-            # FIXED: Clear completed adaptive test sessions
+            # Clear completed adaptive test sessions
             if test_type == "Adaptive Test":
                 # Check if adaptive test is complete (no remaining topics or empty topics)
                 remaining_topics = session.get("remaining_topics", [])
@@ -2760,7 +2750,7 @@ async def adaptive_test_command(update: Update, context: ContextTypes.DEFAULT_TY
                         user_info["active_session_ids"] = {}
                     save_user_data()
             
-            # If it's a completed reevaluation session, nuke it
+            # If it's a completed reevaluation session, clear it
             elif "Reevaluation" in test_type:
                 questions = session.get("questions", [])
                 current_index = session.get("current_question_index", 0)
@@ -2792,7 +2782,7 @@ async def adaptive_test_command(update: Update, context: ContextTypes.DEFAULT_TY
     )
 
 async def set_reminder_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
-    """Handle the /set_reminder command for daily test notifications (using database)."""
+    """Handle the /set_reminder command for daily test notifications."""
     user_id = str(update.effective_user.id)
     
     # Get user's language
@@ -2806,7 +2796,7 @@ async def set_reminder_command(update: Update, context: ContextTypes.DEFAULT_TYP
     if context.args and len(context.args) > 0:
         time_arg = context.args[0].strip()
         
-        # Clean the input to remove hidden Unicode characters (copy-paste fix)
+        # Clean the input to remove hidden Unicode characters 
         time_arg = time_arg.replace('\u200b', '').replace('\ufeff', '').replace('\u00a0', '').replace('\u2009', '').replace('\u202f', '')
         time_arg = ''.join(char for char in time_arg if char.isprintable() or char in ':0123456789')
         
@@ -2940,7 +2930,7 @@ async def progress_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -
             await update.message.reply_text(message)
             return
         
-        # Generate chart (no longer needs texts parameter)
+        # Generate chart 
         chart_buffer = generate_progress_chart(progress_data)
         
         # Calculate average score for additional info
@@ -3081,7 +3071,7 @@ async def send_question(update: Update, context: ContextTypes.DEFAULT_TYPE, ques
         for option, text in choices.items():
             question_message += f"{option}. {text}\n"
         
-        # ULTRA SIMPLIFIED callback prefix logic
+        # callback prefix logic
         callback_prefix = "answer:"
         
         # Get the current session
@@ -3101,13 +3091,13 @@ async def send_question(update: Update, context: ContextTypes.DEFAULT_TYPE, ques
         
         logger.info(f"Using callback prefix: {callback_prefix}")
         
-        # Create keyboard for answer options - ULTRA SIMPLE
+        # Create keyboard for answer options 
         keyboard = []
         row = []
         
         for option in "ABCDE":
             if option in choices:
-                # PURE SIMPLE CALLBACK - just prefix + letter
+                # CALLBACK - just prefix + letter
                 callback_data = f"{callback_prefix}{option}"
                 row.append(InlineKeyboardButton(option, callback_data=callback_data))
                 logger.info(f"Created button: {option} -> {callback_data}")
@@ -3169,14 +3159,14 @@ async def show_navigation_options(update: Update, context: ContextTypes.DEFAULT_
     )
 
 async def show_adaptive_test_completion(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: str) -> None:
-    """Show enhanced adaptive test completion message with recommendations for weak topics."""
+    """Show adaptive test completion message with recommendations for weak topics."""
     lang = get_user_language(user_id)
     texts = TEXTS[lang]
     
     # Load recommendations data
     recommendations = load_recommendations()
     
-    # FIXED: Get the latest test from DATABASE, not just memory
+    # Get the latest test from DATABASE, not just memory
     latest_test = None
     try:
         tests = db_manager.get_user_tests(user_id, limit=1)
@@ -3211,7 +3201,7 @@ async def show_adaptive_test_completion(update: Update, context: ContextTypes.DE
             text=f"🎓 {texts['test_completed']}\n\n📊 {texts['view_results']}\n🔄 {texts['start_another']}"
         )
         await show_navigation_options(update, context, user_id)
-        # FIXED: Clear session from BOTH global cache and database
+        # Clear session from BOTH global cache and database
         if user_id in user_data:
             user_data[user_id]["current_test_session"] = None
         db_manager.clear_user_session(user_id)
@@ -3283,7 +3273,7 @@ async def show_adaptive_test_completion(update: Update, context: ContextTypes.DE
         
         if keyboard:
             reply_markup = InlineKeyboardMarkup(keyboard)
-            # FIXED: Format the prompt with topic name(s)
+            # Format the prompt with topic name(s)
             if len(needs_training) == 1:
                 prompt_text = texts.get('advanced_practice_prompt', 'Would you like advanced practice?').format(needs_training[0])
             else:
@@ -3298,7 +3288,7 @@ async def show_adaptive_test_completion(update: Update, context: ContextTypes.DE
     # Always show navigation options at the end
     await show_navigation_options(update, context, user_id)
     
-    # FIXED: Clear session from BOTH global cache and database
+    # Clear session from BOTH global cache and database
     if user_id in user_data:
         user_data[user_id]["current_test_session"] = None
     else:
@@ -3312,9 +3302,6 @@ async def show_adaptive_test_completion(update: Update, context: ContextTypes.DE
 
 async def show_exam_completion(update: Update, context: ContextTypes.DEFAULT_TYPE, user_id: str, test_results: Dict) -> None:
     """Show a detailed exam completion summary with all questions and explanations.
-    
-    Located in: simple_bot.py (standalone function)
-    
     Args:
         update: Telegram update object
         context: Telegram context object
@@ -3329,7 +3316,6 @@ async def show_exam_completion(update: Update, context: ContextTypes.DEFAULT_TYP
         logger.info(f"Showing exam completion for user {user_id}, score: {test_results.get('score', 'Unknown')}")
         
         # Safeguard: Ensure the test is properly recorded in user's history
-        # This is needed because sometimes the normal completion flow might fail
         user_info = get_user_data(user_id)
         
         # Check if this test result is already in user's history
@@ -3370,7 +3356,7 @@ async def show_exam_completion(update: Update, context: ContextTypes.DEFAULT_TYP
             save_user_data()
             logger.info(f"Safeguard: Manually recorded test result for user {user_id}")
         
-        # CRITICAL FIX: Store exam results in database as user session backup
+        # Store exam results in database as user session backup
         backup_data = {
             "type": "exam_results_backup",
             "test_results": test_results,
@@ -3454,7 +3440,7 @@ async def handle_detailed_results_request(update: Update, context: ContextTypes.
     lang = get_user_language(user_id)
     texts = TEXTS[lang]
     
-    # CRITICAL FIX: Try multiple sources to get test results
+    # Try multiple sources to get test results
     test_results = None
     
     # 1. Try from memory cache first
@@ -3593,7 +3579,6 @@ async def handle_detailed_results_request(update: Update, context: ContextTypes.
             )
     
     # Send navigation options AFTER all results are sent
-    # This message will be more visible and accessible to the user
     await context.bot.send_message(
         chat_id=update.effective_chat.id,
         text=f"📊 {texts['view_results']}\n"
@@ -3671,7 +3656,7 @@ async def handle_results_button(update: Update, context: ContextTypes.DEFAULT_TY
     )
 
 async def handle_advanced_reevaluation_callback(update: Update, context: ContextTypes.DEFAULT_TYPE, callback_data: str) -> None:
-    """Handle advanced reevaluation callback with SIMPLE session management"""
+    """Handle advanced reevaluation callback with session management"""
     query = update.callback_query
     user_id = str(update.effective_user.id)
     lang = get_user_language(user_id)
@@ -3725,7 +3710,7 @@ async def handle_advanced_reevaluation_callback(update: Update, context: Context
             )
 
 async def handle_reminder_callback(update: Update, context: ContextTypes.DEFAULT_TYPE, callback_data: str) -> None:
-    """Handle reminder-related callback queries (using database)."""
+    """Handle reminder-related callback queries"""
     query = update.callback_query
     await query.answer()
     
@@ -3868,7 +3853,7 @@ def schedule_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str, ti
         logger.error(f"Traceback: {traceback.format_exc()}")
 
 def cancel_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str) -> None:
-    """Cancel daily reminder for the user and ACTUALLY remove all related jobs."""
+    """Cancel daily reminder for the user and remove all related jobs."""
     try:
         job_name = f"reminder_{user_id}"
         
@@ -3997,7 +3982,7 @@ async def send_daily_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
         lang = get_user_language(user_id)
         texts = TEXTS[lang]
         
-        # Check if user still has reminders enabled - USE DATABASE instead of user_data
+        # Check if user still has reminders enabled 
         reminder_settings = db_manager.get_user_reminder_settings(user_id)
         if not reminder_settings.get("enabled", False):
             # User disabled reminders, cancel the job
@@ -4013,7 +3998,7 @@ async def send_daily_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
         ]
         reply_markup = InlineKeyboardMarkup(keyboard)
         
-        # Get user's weak topics for personalized message - USE DATABASE
+        # Get user's weak topics for personalized message 
         weak_topics = db_manager.get_weak_topics(user_id)
         if weak_topics:
             topic_suggestion = texts["reminder_weak_topics"].format(", ".join(weak_topics[:3]))
@@ -4200,7 +4185,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             )
         return
 
-    # CRITICAL FIX: Add stale session clearing for adaptive test buttons (same as mimic exam)
+    # Add stale session clearing for adaptive test buttons 
     elif callback_data in ["start_adaptive_from_start", "start_adaptive_from_topics", "subject_adaptive:CS211"]:
         # Add the same stale session clearing logic as mimic exam
         if user_id in user_data:
@@ -4922,7 +4907,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                     update_adaptive_test_results(user_id, "complete")
                     await show_adaptive_test_completion(update, context, user_id)
                 
-                return  # Exit handler since we've processed this case
+                return  # Exit handler 
             
             # Handle topic completion
             elif action_type == "topic_complete":
@@ -5009,7 +4994,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 await show_adaptive_test_completion(update, context, user_id)
                 
             else:
-                # CRITICAL FIX: Only show next_question messages, skip warning messages
+                # Only show next_question messages, skip warning messages
                 if (next_action.get("message") and 
                     action_type == "next_question"):
                     await context.bot.send_message(
@@ -5041,16 +5026,16 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
     # Handle reevaluation answers - REEVALUATION SHOULD SHOW FEEDBACK AFTER EACH QUESTION
     elif callback_data.startswith("reevaluation_answer:"):
         try:
-            # SIMPLE parsing - remove all session ID complexity
+            # parsing - remove all session ID complexity
             parts = callback_data.replace("reevaluation_answer:", "").split(":")
             answer = parts[-1]  # Get the last part which should be the answer
             
             logger.info(f"Processing reevaluation answer: {answer} for user {user_id}")
             
-            # CRITICAL FIX: Check session from database, not stale cache
+            # Check session from database, not stale cache
             session = db_manager.load_user_session(user_id)
             
-            # FIXED SESSION VALIDATION - Only check if session exists and is reevaluation
+            # SESSION VALIDATION - Only check if session exists and is reevaluation
             if not session:
                 await query.answer("No active test session. Please start a new test.")
                 return
@@ -5061,14 +5046,14 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 await query.answer("This is not a reevaluation test session.")
                 return
                 
-            # Simple validation - just check if we have questions and valid index
+            # just check if we have questions and valid index
             questions = session.get("questions", [])
             current_index = session.get("current_question_index", 0)
             if current_index >= len(questions):
                 await query.answer("This test has already been completed.")
                 return
             
-            # FIXED: Use the correct function based on test type
+            # Use the correct function based on test type
             if "Advanced Reevaluation" in test_type:
                 # Use advanced function for advanced reevaluation - SEQUENTIAL HARD QUESTIONS
                 result = process_reevaluation_answer_advanced(user_id, answer)
@@ -5170,7 +5155,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                     text=completion_message
                 )
                 
-                # Show navigation options with localized buttons
+                # Show navigation options 
                 await show_navigation_options(update, context, user_id)
                 
             else:
@@ -5353,7 +5338,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
             topic = callback_data.replace("start_reevaluation:", "")
             logger.info(f"Starting reevaluation for topic {topic} for user {user_id}")
             
-            # FORCE CLEAR ANY EXISTING SESSION - no more warnings, just clear
+            # FORCE CLEAR ANY EXISTING SESSION 
             user_info = get_user_data(user_id)
             
             # Immediately clear both database and memory
@@ -5379,7 +5364,7 @@ async def button_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> 
                 )
                 return
             
-            # Show reevaluation test intro with a very clear indicator
+            # Show reevaluation test intro with a clear indicator
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
                 text=texts["new_reevaluation"].format(topic)
