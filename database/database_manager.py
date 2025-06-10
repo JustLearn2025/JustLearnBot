@@ -1,6 +1,6 @@
 """
 Database manager for JUSTLearn Bot SQLite implementation.
-Handles all database operations while maintaining exact functionality.
+Handles all database operations
 """
 import sqlite3
 import json
@@ -25,7 +25,7 @@ class DatabaseManager:
     
     @contextmanager
     def get_connection(self):
-        """Get database connection with proper error handling."""
+        """Get database connection with error handling."""
         conn = None
         try:
             conn = sqlite3.connect(self.db_path)
@@ -168,7 +168,7 @@ class DatabaseManager:
     # ===== MCQ OPERATIONS =====
     
     def load_mcqs(self) -> List[Dict]:
-        """Load all MCQs from database - maintains exact JSON format."""
+        """Load all MCQs from database"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -286,7 +286,7 @@ class DatabaseManager:
     # ===== USER SESSION OPERATIONS =====
     
     def save_user_session(self, user_id: str, session_data: Dict):
-        """Save user session data - maintains exact session format."""
+        """Save user session data"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             # Remove existing session
@@ -304,7 +304,7 @@ class DatabaseManager:
             conn.commit()
     
     def load_user_session(self, user_id: str) -> Optional[Dict]:
-        """Load user session data - returns exact session format."""
+        """Load user session data"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -329,7 +329,7 @@ class DatabaseManager:
     # ===== USER TESTS OPERATIONS =====
     
     def save_user_test(self, user_id: str, test_data: Dict):
-        """Save user test result - maintains exact test format."""
+        """Save user test result"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -357,7 +357,7 @@ class DatabaseManager:
             conn.commit()
     
     def get_user_tests(self, user_id: str, limit: int = 5) -> List[Dict]:
-        """Get user's test history - returns exact format."""
+        """Get user's test history"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -408,7 +408,7 @@ class DatabaseManager:
             conn.commit()
     
     def get_user_progress(self, user_id: str) -> List[Dict]:
-        """Get user's progress data - maintains exact format."""
+        """Get user's progress data"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -469,7 +469,7 @@ class DatabaseManager:
     # ===== RECOMMENDATIONS OPERATIONS =====
     
     def load_recommendations(self) -> Dict:
-        """Load recommendations from database - maintains exact format."""
+        """Load recommendations from database"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -502,7 +502,7 @@ class DatabaseManager:
     # ===== REMINDER OPERATIONS =====
     
     def save_user_reminder_settings(self, user_id: str, settings: Dict):
-        """Save user reminder settings - maintains exact format."""
+        """Save user reminder settings"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
@@ -518,7 +518,7 @@ class DatabaseManager:
             conn.commit()
     
     def get_user_reminder_settings(self, user_id: str) -> Dict:
-        """Get user reminder settings - returns exact format."""
+        """Get user reminder settings"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
