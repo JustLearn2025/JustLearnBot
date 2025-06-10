@@ -1,7 +1,7 @@
 """
-User tracking module for JUSTLearn Bot - SQLite version.
+User tracking module for JUSTLearn Bot.
 Handles user session data, test results, and performance analytics.
-Maintains 100% functionality while switching from JSON to SQLite.
+
 """
 import json
 import os
@@ -61,7 +61,7 @@ class UserTracker:
                 self.db_manager.add_needs_training_topic(user_id, topic)
     
     def get_user_data(self, user_id: str) -> Dict:
-        """Get data for a specific user - maintains exact format."""
+        """Get data for a specific user"""
         # Check cache first
         if user_id not in self._user_cache:
             self._user_cache[user_id] = self._get_user_data_from_db(user_id)
@@ -133,7 +133,7 @@ class UserTracker:
             answer: User's answer (A, B, C, or D)
         
         Returns:
-            Dictionary with results - maintains exact format
+            Dictionary with results
         """
         user_data = self.get_user_data(user_id)
         session = user_data.get("current_test_session")
@@ -204,7 +204,7 @@ class UserTracker:
             user_id: Telegram user ID
         
         Returns:
-            Test results summary - maintains exact format
+            Test results summary 
         """
         user_data = self.get_user_data(user_id)
         session = user_data.get("current_test_session")
