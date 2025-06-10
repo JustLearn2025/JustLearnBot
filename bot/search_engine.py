@@ -1,7 +1,6 @@
 """
-Search engine module for JUSTLearn Bot - SQLite version.
+Search engine module for JUSTLearn Bot.
 Handles embeddings and question retrieval using FAISS and SQLite.
-Maintains 100% functionality while switching from JSON to SQLite.
 """
 import json
 import random
@@ -185,7 +184,7 @@ class SearchEngine:
         if count and count > 0:
             result = self._get_balanced_questions_from_list(mcqs, expanded_topics, count, difficulty)
             
-            # CRITICAL FIX: Ensure we reach the target count
+            # Ensure we reach the target count
             if len(result) < count and mcqs:
                 # Remove duplicates first
                 unique_results = []
@@ -326,7 +325,7 @@ class SearchEngine:
                 else:
                     result.extend(topic_mcqs[:current_count])
         
-        # CRITICAL FIX: If we don't have enough questions, try to fill remaining slots
+        # If we don't have enough questions, try to fill remaining slots
         if len(result) < count:
             # Get all unused questions
             used_question_ids = {q['question'][:50] for q in result}
