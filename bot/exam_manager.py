@@ -35,12 +35,9 @@ class ExamManager:
             "mini_test": None  # Dynamic based on weak topics
         }
     
-# ExamManager methods to update in exam_manager.py
-
-
     def start_first_exam(self, user_id: str) -> Dict:
         """
-        Start first exam for the user with exactly 20 questions and enhanced shuffling.
+        Start first exam for the user with exactly 20 questions and  shuffling.
 
         Args:
             user_id: Telegram user ID
@@ -55,7 +52,7 @@ class ExamManager:
         topics = self.exam_topics["first_exam"]
         count = 20  # Exactly 20 questions
 
-        # Get questions with enhanced shuffling from search engine
+        # Get questions with shuffling from search engine
         selected_questions = self.search_engine.get_questions_by_topic(topics, count=count)
 
         if not selected_questions:
@@ -73,7 +70,7 @@ class ExamManager:
 
     def start_second_exam(self, user_id: str, exclude_hashing: bool = False) -> Dict:
         """
-        Start second exam for the user with exactly 20 questions and enhanced shuffling.
+        Start second exam for the user with exactly 20 questions and shuffling.
 
         Args:
             user_id: Telegram user ID
@@ -95,7 +92,7 @@ class ExamManager:
             topics = [t for t in topics if t not in exclude_topics 
                     and not any(t.lower() == et.lower() for et in exclude_topics)]
 
-        # Get questions with enhanced shuffling from search engine
+        # Get questions with shuffling from search engine
         selected_questions = self.search_engine.get_questions_by_topic(topics, count=count)
 
         if not selected_questions:
@@ -113,7 +110,7 @@ class ExamManager:
 
     def start_final_exam(self, user_id: str, exclude_big_o: bool = False) -> Dict:
         """
-        Start final exam for the user with exactly 40 questions and enhanced shuffling.
+        Start final exam for the user with exactly 40 questions and shuffling.
 
         Args:
             user_id: Telegram user ID
@@ -135,7 +132,7 @@ class ExamManager:
             topics = [t for t in topics if t not in exclude_topics 
                     and not any(t.lower() == et.lower() for et in exclude_topics)]
 
-        # Get questions with enhanced shuffling from search engine
+        # Get questions with shuffling from search engine
         selected_questions = self.search_engine.get_questions_by_topic(topics, count=count)
 
         if not selected_questions:
@@ -392,7 +389,7 @@ class ExamManager:
 
     def start_reevaluation_test(self, user_id: str, topic: str) -> Dict:
         """
-        Start a reevaluation test for a specific topic with enhanced question selection.
+        Start a reevaluation test for a specific topic 
         
         Args:
             user_id: Telegram user ID
@@ -404,7 +401,7 @@ class ExamManager:
         if self.user_tracker.has_active_test(user_id):
             return {"error": "You already have an active test session. Complete it first."}
         
-        # Get questions with enhanced selection
+        # Get questions 
         all_questions = self.search_engine.get_questions_by_topic([topic])
         
         # Separate by difficulty
@@ -412,7 +409,7 @@ class ExamManager:
         medium_questions = [q for q in all_questions if q.get("difficulty") == "Medium"]
         hard_questions = [q for q in all_questions if q.get("difficulty") == "Hard"]
         
-        # Enhanced selection: pick one from each difficulty with better shuffling
+        # selection: pick one from each difficulty with shuffling
         questions = []
         
         if easy_questions:
