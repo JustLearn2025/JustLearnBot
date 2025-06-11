@@ -1439,6 +1439,8 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
         user_id: Telegram user ID
         result_type: Type of result (complete, offer_reevaluation)
     """
+    import pytz
+    
     user_info = get_user_data(user_id)
     session = user_info.get("current_test_session")
 
@@ -1478,7 +1480,8 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
 
     # If test is complete, save to test history
     if result_type == "complete":
-        now = datetime.now()
+        jordan_tz = pytz.timezone('Asia/Amman')
+        now = datetime.now(jordan_tz)
         current_date = now.strftime("%Y-%m-%d")
         current_time = now.strftime("%H:%M")
         
@@ -2275,6 +2278,8 @@ def get_unused_question_by_topic_and_difficulty(user_id: str, topic: str, diffic
 def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
     """Process an answer in the NORMAL reevaluation test with SEQUENTIAL LOGIC"""
     try:
+        import pytz
+        
         # GET SESSION FROM DATABASE
         session = db_manager.load_user_session(user_id)
         
@@ -2351,10 +2356,13 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
             if correct_answers < (total_questions * 2 // 3):  # Less than 2/3 correct
                 weak_topics = topics.copy()
             
-            # Create test result
+            # Create test result 
+            jordan_tz = pytz.timezone('Asia/Amman')
+            now = datetime.now(jordan_tz)
+            
             test_result = {
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "time": datetime.now().strftime("%H:%M"),
+                "date": now.strftime("%Y-%m-%d"),
+                "time": now.strftime("%H:%M"),
                 "test_type": f"Reevaluation: {topics[0] if topics else 'Unknown'}",
                 "topics": topics,
                 "score": f"{correct_answers}/{total_questions}",
@@ -2401,6 +2409,8 @@ def process_reevaluation_answer(user_id: str, answer: str) -> Dict:
 def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
     """process reevaluation answer - PURELY SEQUENTIAL FOR ADVANCED REEVAL"""
     try:
+        import pytz
+        
         logger.info(f"Processing ADVANCED reevaluation answer for user {user_id}: {answer}")
         
         # Get fresh session from database 
@@ -2491,10 +2501,13 @@ def process_reevaluation_answer_advanced(user_id: str, answer: str) -> Dict:
             if correct_answers < (total_questions * 0.8):  # Less than 80% for advanced
                 weak_topics = topics.copy()
             
-            # Create test result
+            # Create test result 
+            jordan_tz = pytz.timezone('Asia/Amman')
+            now = datetime.now(jordan_tz)
+            
             test_result = {
-                "date": datetime.now().strftime("%Y-%m-%d"),
-                "time": datetime.now().strftime("%H:%M"),
+                "date": now.strftime("%Y-%m-%d"),
+                "time": now.strftime("%H:%M"),
                 "test_type": test_type,
                 "topics": topics,
                 "score": f"{correct_answers}/{total_questions}",
