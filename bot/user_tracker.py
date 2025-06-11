@@ -5,6 +5,7 @@ Handles user session data, test results, and performance analytics.
 """
 import json
 import os
+import pytz
 from datetime import datetime
 from typing import Dict, List, Any, Optional, Set
 from database.database_manager import DatabaseManager
@@ -208,27 +209,28 @@ class UserTracker:
         """
         user_data = self.get_user_data(user_id)
         session = user_data.get("current_test_session")
-    
+
         if not session:
             return {"error": "No active test session"}
-    
+
         # Calculate score
         total_questions = len(session["questions"])
         correct_answers = session.get("correct_answers", 0)
         score = f"{correct_answers}/{total_questions}"
-    
+
         # Convert incorrect_topics to list if it's a set
         if isinstance(session["incorrect_topics"], set):
             weak_topics = list(session["incorrect_topics"])
         else:
             weak_topics = session["incorrect_topics"]
-    
+
         # Get user answers if available
         user_answers = session.get("user_answers", [])
-    
+
         # Create test result entry
-        now = datetime.now()
-    
+        jordan_tz = pytz.timezone('Asia/Amman')
+        now = datetime.now(jordan_tz)
+
         test_result = {
             "date": now.strftime("%Y-%m-%d"),
             "time": now.strftime("%H:%M"),
@@ -239,14 +241,14 @@ class UserTracker:
             "correct_count": correct_answers,
             "answers": user_answers
         }
-    
+
         # Save test to database
         self.db_manager.save_user_test(user_id, test_result)
-    
+
         # Update weak topic pool
         for topic in weak_topics:
             self.db_manager.add_weak_topic(user_id, topic)
-    
+
         # Record progress for visual tracking
         try:
             # Calculate normalized score for progress
@@ -255,17 +257,17 @@ class UserTracker:
                 self.db_manager.save_user_progress(user_id, normalized_score)
         except Exception as e:
             print(f"Error recording progress: {e}")
-    
+
         # Clear current test session
         user_data["current_test_session"] = None
         self.db_manager.clear_user_session(user_id)
         
         # Update cache
         self._update_cache(user_id)
-    
+
         print(f"Test completed for user {user_id}, type: {test_result['test_type']}")
         print(f"Score: {score}")
-    
+
         return test_result
     
     def get_weak_topics(self, user_id: str) -> List[str]:
