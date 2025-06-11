@@ -50,6 +50,7 @@ TEXTS = {
         "subjects_command": "Show all available subjects",
         "subjects_header": "📚 Available Subjects:",
         "subjects_description": "Choose a subject to explore its topics and tests:",
+        "accuracy": "Accuracy",
 
         # Contact Us Command
         "contact_us_command": "Contact us for support and suggestions",
@@ -103,7 +104,8 @@ TEXTS = {
         "reevaluation_test": "Reevaluation Test",
         "advanced_reevaluation_test": "Advanced Reevaluation Test",
         "advanced_practice_prompt": "Would you like advanced practice on '{}' to improve your high-level performance?\n\n📚 **Reevaluation Test**: 3 questions (1 Easy, 1 Medium, 1 Hard)\n🔥 **Advanced Reevaluation Test**: 3 Hard level questions for mastery",
-        
+        "would_you_like_reevaluation_tests": "💡 Would you like to take reevaluation tests on your weak topics?",
+
         # Test completion
         "test_completed": "Adaptive Test Completed!",
         "test_date": "Date: {}",
@@ -130,6 +132,7 @@ TEXTS = {
         "start_mimic_exam_button": "🎯 Start Mimic Exam",
         "return_to_main_menu": "🏠 Return to Main Menu",
         "what_next": "What would you like to do next?",
+        "use_start_return": "🏠 Use /start to return to the main menu.",
         
         # Reset command
         "reset_confirmation": "✅ Your session has been completely reset.",
@@ -165,6 +168,7 @@ TEXTS = {
         "show_incorrect_button": "Show Only Incorrect Answers",
         "skip_details_button": "Skip Details",
         "answer_recorded": "Answer {} recorded",
+        "needs_more_training": "You're doing well with {} but need more practice on high-level questions. Moving to next topic.",
         
         # Mimic exam command
         "mimic_exam_header": "🎯 In-Camp Exam Simulation",
@@ -268,6 +272,7 @@ TEXTS = {
         "subjects_command": "عرض جميع المواد المتاحة", 
         "subjects_header": "📚 المواد المتاحة:",
         "subjects_description": "اختر مادة لاستكشاف مواضيعها والاختبارات:",
+        "accuracy": "الدقة",
 
         # Contact Us Command
         "contact_us_command": "تواصل معنا للدعم والاقتراحات",
@@ -321,7 +326,8 @@ TEXTS = {
         "reevaluation_test": "اختبار إعادة تقييم",
         "advanced_reevaluation_test": "اختبار إعادة تقييم متقدم",
         "advanced_practice_prompt": "هل ترغب في ممارسة متقدمة على '{}' لتحسين أدائك في المستوى العالي؟\n\n📚 **اختبار إعادة التقييم**: 3 أسئلة (1 سهل، 1 متوسط، 1 صعب)\n🔥 **اختبار إعادة التقييم المتقدم**: 3 أسئلة صعبة للإتقان",
-        
+        "would_you_like_reevaluation_tests": "💡 هل ترغب في إجراء اختبارات إعادة تقييم على المواضيع الضعيفة لديك؟",
+
         # Test completion
         "test_completed": "تم إكمال الاختبار التكيفي!",
         "test_date": "التاريخ: {}",
@@ -348,6 +354,7 @@ TEXTS = {
         "start_mimic_exam_button": "🎯 بدء امتحان محاكي",
         "return_to_main_menu": "🏠 العودة للقائمة الرئيسية",
         "what_next": "ماذا تريد أن تفعل الآن؟",
+        "use_start_return": "🏠 استخدم /start للعودة إلى القائمة الرئيسية.",
         
         # Reset command
         "reset_confirmation": "✅ تم إعادة تعيين جلستك بالكامل.",
@@ -383,6 +390,7 @@ TEXTS = {
         "show_incorrect_button": "عرض الإجابات الخاطئة فقط",
         "skip_details_button": "تخطي التفاصيل",
         "answer_recorded": "تم تسجيل الإجابة {}",
+        "needs_more_training": "أنت تؤدي بشكل جيد مع {} ولكن تحتاج إلى المزيد من الممارسة على الأسئلة عالية المستوى. الانتقال إلى الموضوع التالي.",
         
         # Mimic exam command
         "mimic_exam_header": "🎯 محاكاة امتحانات الجامعة",
@@ -1492,7 +1500,8 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
             "topics_selected": session["topics"],
             "weak_topics": weak_topics,
             "passed_topics": passed_topics,
-            "needs_more_training": needs_more_training
+            "needs_more_training": needs_more_training,
+            "score": f"{sum(1 for answer in session['answers'] if answer['correct'])}/{len(session['answers'])}"  # ADD THIS LINE
         }
         
         # Save test to database BEFORE clearing session
@@ -1975,7 +1984,7 @@ def process_adaptive_answer(user_id: str, answer: str, all_mcqs: List[Dict]) -> 
                         "type": "needs_training_complete",
                         "topic": current_topic,
                         "message": texts.get("needs_more_training", 
-                            f"You're doing well with {current_topic} but need more practice on high-level questions. Moving to next topic.")
+                            f"You're doing well with {current_topic} but need more practice on high-level questions. Moving to next topic.").format(current_topic)
                     }
                 }
         
@@ -2684,11 +2693,21 @@ async def results_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         if time_str:
             date_str = f"{date_str} {time_str}"
         
-        # Check if this is an Adaptive Test - REMOVE SCORE FOR ADAPTIVE TESTS ONLY
+        # Check if this is an Adaptive Test - SHOW ACCURACY FOR ADAPTIVE TESTS
         test_type = test.get('test_type', 'Test')
         if test_type == "Adaptive Test":
-            # Format entry without score for Adaptive Tests
-            entry = f"{i+1}. {test_type} ({date_str})\n   Weak Topics: {weak_topics_str}\n\n"
+            # Calculate accuracy for Adaptive Tests
+            score = test.get('score', '0/0')
+            accuracy_text = texts.get('accuracy', 'Accuracy')
+            try:
+                if '/' in score:
+                    correct, total = score.split('/')
+                    accuracy = round((int(correct) / int(total)) * 100, 1) if int(total) > 0 else 0
+                    entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: {accuracy}%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
+                else:
+                    entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: 0%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
+            except (ValueError, ZeroDivisionError):
+                entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: 0%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
         else:
             # Format this entry using the original template for all other test types
             entry = texts["results_test_entry"].format(
@@ -3281,7 +3300,7 @@ async def show_adaptive_test_completion(update: Update, context: ContextTypes.DE
             reply_markup = InlineKeyboardMarkup(keyboard)
             await context.bot.send_message(
                 chat_id=update.effective_chat.id,
-                text="💡 Would you like to take reevaluation tests on your weak topics?",
+                text=texts["would_you_like_reevaluation_tests"],
                 reply_markup=reply_markup
             )
 
@@ -3529,7 +3548,7 @@ async def handle_detailed_results_request(update: Update, context: ContextTypes.
             chat_id=update.effective_chat.id,
             text=f"📊 {texts['view_results']}\n"
                  f"🔄 {texts['start_another']}\n"
-                 f"🏠 Use /start to return to the main menu."
+                 f"{texts['use_start_return']}"
         )
         return
     
@@ -3608,7 +3627,7 @@ async def handle_detailed_results_request(update: Update, context: ContextTypes.
         chat_id=update.effective_chat.id,
         text=f"📊 {texts['view_results']}\n"
              f"🔄 {texts['start_another']}\n"
-             f"🏠 Use /start to return to the main menu."
+             f"{texts['use_start_return']}"
     )
     
     # If we showed only incorrect answers, offer to see all
@@ -3658,11 +3677,21 @@ async def handle_results_button(update: Update, context: ContextTypes.DEFAULT_TY
         if time_str:
             date_str = f"{date_str} {time_str}"
         
-        # Check if this is an Adaptive Test - REMOVE SCORE FOR ADAPTIVE TESTS ONLY
+        # Check if this is an Adaptive Test - SHOW ACCURACY FOR ADAPTIVE TESTS
         test_type = test.get('test_type', 'Test')
         if test_type == "Adaptive Test":
-            # Format entry without score for Adaptive Tests
-            entry = f"{i+1}. {test_type} ({date_str})\n   Weak Topics: {weak_topics_str}\n\n"
+            # Calculate accuracy for Adaptive Tests
+            score = test.get('score', '0/0')
+            accuracy_text = texts.get('accuracy', 'Accuracy')
+            try:
+                if '/' in score:
+                    correct, total = score.split('/')
+                    accuracy = round((int(correct) / int(total)) * 100, 1) if int(total) > 0 else 0
+                    entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: {accuracy}%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
+                else:
+                    entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: 0%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
+            except (ValueError, ZeroDivisionError):
+                entry = f"{i+1}. {test_type} ({date_str})\n   {accuracy_text}: 0%\n   {texts['topics_to_review']}: {weak_topics_str}\n\n"
         else:
             # Format this entry using the original template for all other test types
             # Ensure the exact test_type is used (First Exam, Second Exam, Final Exam)
@@ -5505,7 +5534,7 @@ async def message_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         
         welcome_message = (
             f"👋 {texts['hello']} {user.first_name}! {texts['welcome_to_bot']}\n\n"
-            f"{texts['use_start_command']}\n\n"  
+            f"{texts['use_start_return']}\n\n"  
         )
         
         await update.message.reply_text(welcome_message)
@@ -5520,6 +5549,7 @@ async def error_handler(update: Update, context: ContextTypes.DEFAULT_TYPE) -> N
             chat_id=update.effective_chat.id,
             text="❗ An error occurred while processing your request. Please try again."
         )
+
 async def reset_command(update: Update, context: ContextTypes.DEFAULT_TYPE) -> None:
     """Reset user's active test session with comprehensive cleanup."""
     user_id = str(update.effective_user.id)
