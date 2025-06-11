@@ -2684,14 +2684,20 @@ async def results_command(update: Update, context: ContextTypes.DEFAULT_TYPE) ->
         if time_str:
             date_str = f"{date_str} {time_str}"
         
-        # Format this entry using the template from translations
-        entry = texts["results_test_entry"].format(
-            index=i+1,
-            test_type=test.get('test_type', 'Test'),
-            date=date_str,
-            score=test.get('score', 'N/A'),
-            weak_topics=weak_topics_str
-        )
+        # Check if this is an Adaptive Test - REMOVE SCORE FOR ADAPTIVE TESTS ONLY
+        test_type = test.get('test_type', 'Test')
+        if test_type == "Adaptive Test":
+            # Format entry without score for Adaptive Tests
+            entry = f"{i+1}. {test_type} ({date_str})\n   Weak Topics: {weak_topics_str}\n\n"
+        else:
+            # Format this entry using the original template for all other test types
+            entry = texts["results_test_entry"].format(
+                index=i+1,
+                test_type=test_type,
+                date=date_str,
+                score=test.get('score', 'N/A'),
+                weak_topics=weak_topics_str
+            )
         results_message += entry
     
     # Get overall weak topics
@@ -3652,15 +3658,21 @@ async def handle_results_button(update: Update, context: ContextTypes.DEFAULT_TY
         if time_str:
             date_str = f"{date_str} {time_str}"
         
-        # Format this entry using the template from translations
-        # Ensure the exact test_type is used (First Exam, Second Exam, Final Exam)
-        entry = texts["results_test_entry"].format(
-            index=i+1,
-            test_type=test.get('test_type', 'Test'),
-            date=date_str,
-            score=test.get('score', 'N/A'),
-            weak_topics=weak_topics_str
-        )
+        # Check if this is an Adaptive Test - REMOVE SCORE FOR ADAPTIVE TESTS ONLY
+        test_type = test.get('test_type', 'Test')
+        if test_type == "Adaptive Test":
+            # Format entry without score for Adaptive Tests
+            entry = f"{i+1}. {test_type} ({date_str})\n   Weak Topics: {weak_topics_str}\n\n"
+        else:
+            # Format this entry using the original template for all other test types
+            # Ensure the exact test_type is used (First Exam, Second Exam, Final Exam)
+            entry = texts["results_test_entry"].format(
+                index=i+1,
+                test_type=test_type,
+                date=date_str,
+                score=test.get('score', 'N/A'),
+                weak_topics=weak_topics_str
+            )
         results_message += entry
     
     # Get overall weak topics
