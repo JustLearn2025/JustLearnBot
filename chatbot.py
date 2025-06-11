@@ -692,14 +692,13 @@ def load_progress_data(user_id: str, data_dir: str = "data") -> List[Dict]:
 def restore_reminder_jobs_from_db(application) -> None:
     """Restore reminder jobs for all users who have reminders enabled."""
     try:
-        # Jordan timezone
-        jordan_tz = pytz.timezone('Asia/Amman')
-        now_jordan = datetime.now(jordan_tz)
-        
         # Get all users with enabled reminders from database
         users_with_reminders = db_manager.get_all_users_with_reminders()
         
         restored_count = 0
+        
+        # Use Jordan timezone for all restored jobs
+        jordan_tz = pytz.timezone('Asia/Amman')
         
         for user_id, reminder_data in users_with_reminders:
             reminder_time = reminder_data.get('time', '09:00')
@@ -714,10 +713,13 @@ def restore_reminder_jobs_from_db(application) -> None:
                 for job in current_jobs:
                     job.schedule_removal()
                 
-                # Schedule new job with Jordan timezone
+                # Create time with Jordan timezone
+                reminder_time_obj = time(hour=hour, minute=minute, tzinfo=jordan_tz)
+                
+                # Schedule new daily recurring job with correct timezone
                 application.job_queue.run_daily(
                     send_daily_reminder,
-                    time=time(hour=hour, minute=minute, tzinfo=jordan_tz),
+                    time=reminder_time_obj,
                     data=user_id,
                     name=job_name
                 )
@@ -728,8 +730,7 @@ def restore_reminder_jobs_from_db(application) -> None:
             except Exception as e:
                 logger.error(f"Error restoring reminder for user {user_id}: {str(e)}")
         
-        logger.info(f"Restored {restored_count} reminder jobs on startup from database")
-        logger.info(f"Current Jordan time: {now_jordan.strftime('%Y-%m-%d %H:%M:%S')}")
+        logger.info(f"Restored {restored_count} reminder jobs with Jordan timezone")
         
     except Exception as e:
         logger.error(f"Error restoring reminder jobs from database: {str(e)}")
@@ -3795,7 +3796,7 @@ async def handle_reminder_callback(update: Update, context: ContextTypes.DEFAULT
         )
 
 def schedule_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str, time_str: str) -> None:
-    """Schedule a one-time reminder for the user that disables after triggering."""
+    """Schedule a daily reminder for the user with correct timezone handling."""
     try:
         # Parse time string (HH:MM format)
         hour, minute = map(int, time_str.split(':'))
@@ -3809,43 +3810,27 @@ def schedule_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str, ti
             job.schedule_removal()
             logger.info(f"Removed existing reminder job for user {user_id}")
         
-        # Also remove any existing once jobs
-        once_jobs = context.job_queue.get_jobs_by_name(f"{job_name}_once")
-        for job in once_jobs:
-            job.schedule_removal()
-            logger.info(f"Removed existing once reminder job for user {user_id}")
-        
-        # Jordan timezone
+        # Use Jordan timezone explicitly
         jordan_tz = pytz.timezone('Asia/Amman')
         
-        # Get current time in Jordan timezone
-        now_jordan = datetime.now(jordan_tz)
+        # Create time object with Jordan timezone
+        reminder_time = time(hour=hour, minute=minute, tzinfo=jordan_tz)
         
-        # Create target time for TODAY
-        target_time_today = now_jordan.replace(hour=hour, minute=minute, second=0, microsecond=0)
-        
-        # Check if target time is in the future TODAY
-        if target_time_today > now_jordan:
-            # Schedule for TODAY if time hasn't passed yet
-            next_run_jordan = target_time_today
-            logger.info(f"Scheduling for TODAY - time {time_str} hasn't passed yet")
-        else:
-            # Schedule for TOMORROW if time already passed today
-            next_run_jordan = target_time_today + timedelta(days=1)
-            logger.info(f"Scheduling for TOMORROW - time {time_str} already passed today")
-        
-        # Schedule as a one-time job that will disable itself after execution
-        context.job_queue.run_once(
+        context.job_queue.run_daily(
             send_daily_reminder,
-            when=next_run_jordan,
+            time=reminder_time,
             data=user_id,
             name=job_name
         )
         
-        logger.info(f"Scheduled ONE-TIME reminder for user {user_id} at {time_str} Jordan time")
-        logger.info(f"Reminder will be sent at: {next_run_jordan.strftime('%Y-%m-%d %H:%M:%S')} Jordan time")
-        logger.info(f"Current Jordan time: {now_jordan.strftime('%Y-%m-%d %H:%M:%S')}")
-        logger.info(f"Reminder will auto-disable after sending")
+        logger.info(f"Scheduled DAILY reminder for user {user_id} at {time_str} Jordan time (Asia/Amman)")
+        logger.info(f"Current jobs in queue: {len(list(context.job_queue.jobs()))}")
+        
+        # Verify job was scheduled with correct timezone
+        verify_jobs = context.job_queue.get_jobs_by_name(job_name)
+        if verify_jobs:
+            next_job = verify_jobs[0]
+            logger.info(f"VERIFIED: Job scheduled. Next run: {getattr(next_job, 'next_t', 'Unknown')}")
         
     except Exception as e:
         logger.error(f"Error scheduling reminder for user {user_id}: {str(e)}")
@@ -3883,7 +3868,6 @@ def cancel_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str) -> N
                   str(job.data) == str(user_id) and 
                   hasattr(job, 'callback')):
                 try:
-                    # Import the function to compare
                     if job.callback.__name__ == 'send_daily_reminder':
                         should_remove = True
                         logger.info(f"Found job by callback: {job.name}")
@@ -3895,72 +3879,18 @@ def cancel_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str) -> N
         
         logger.info(f"Found {len(jobs_to_remove)} jobs to remove: {[j.name for j in jobs_to_remove]}")
         
-        # ACTUALLY REMOVE THE JOBS
+        # Remove the jobs
         removed_count = 0
         for job in jobs_to_remove:
             try:
-                # Method 1: Disable immediately
-                if hasattr(job, 'enabled'):
-                    job.enabled = False
-                
-                # Method 2: Schedule removal
                 job.schedule_removal()
-                
-                # Method 3: FORCE removal from internal job list
-                try:
-                    if hasattr(context.job_queue, '_jobs') and job in context.job_queue._jobs:
-                        context.job_queue._jobs.remove(job)
-                        logger.info(f"FORCE REMOVED from _jobs: {job.name}")
-                except Exception as force_error:
-                    logger.error(f"Force removal failed: {force_error}")
-                
-                # Method 4: Try to stop the job if it has a timer
-                try:
-                    if hasattr(job, '_job') and job._job:
-                        job._job.cancel()
-                        logger.info(f"Cancelled timer for: {job.name}")
-                except:
-                    pass
-                
                 removed_count += 1
                 logger.info(f"REMOVED job: {job.name}")
                 
             except Exception as remove_error:
                 logger.error(f"Error removing job {job.name}: {remove_error}")
         
-        # VERIFY REMOVAL
-        remaining_jobs = list(context.job_queue.jobs())
-        user_jobs_remaining = [job for job in remaining_jobs 
-                              if job.name and user_id in str(job.name) and "reminder" in str(job.name).lower()]
-        
-        logger.info(f"RESULT: Removed {removed_count} jobs, {len(user_jobs_remaining)} jobs still remain")
-        
-        if user_jobs_remaining:
-            logger.error(f"FAILED TO REMOVE: {[j.name for j in user_jobs_remaining]}")
-            
-            # Recreate the entire job list without our jobs
-            try:
-                if hasattr(context.job_queue, '_jobs'):
-                    clean_jobs = []
-                    for job in context.job_queue._jobs:
-                        keep_job = True
-                        if job.name and user_id in str(job.name) and "reminder" in str(job.name).lower():
-                            keep_job = False
-                            logger.info(f"NUCLEAR: Excluding {job.name}")
-                        elif (hasattr(job, 'data') and str(job.data) == str(user_id) and 
-                              hasattr(job, 'callback') and job.callback.__name__ == 'send_daily_reminder'):
-                            keep_job = False
-                            logger.info(f"NUCLEAR: Excluding by callback {job.name}")
-                        
-                        if keep_job:
-                            clean_jobs.append(job)
-                    
-                    context.job_queue._jobs = clean_jobs
-                    logger.info(f"NUCLEAR: Rebuilt job queue with {len(clean_jobs)} jobs")
-            except Exception as nuclear_error:
-                logger.error(f"Nuclear option failed: {nuclear_error}")
-        else:
-            logger.info(f"SUCCESS: All reminder jobs removed for user {user_id}")
+        logger.info(f"SUCCESS: Removed {removed_count} reminder jobs for user {user_id}")
         
     except Exception as e:
         logger.error(f"Critical error in cancel_daily_reminder: {str(e)}")
@@ -3972,11 +3902,8 @@ async def send_daily_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
     user_id = context.job.data
     
     try:
-        # Jordan timezone for logging
-        jordan_tz = pytz.timezone('Asia/Amman')
-        now_jordan = datetime.now(jordan_tz)
-        
-        logger.info(f"Attempting to send daily reminder to user {user_id} at {now_jordan.strftime('%Y-%m-%d %H:%M:%S')} Jordan time")
+        # Add execution logging to verify if function is called
+        logger.info(f"REMINDER EXECUTION STARTED for user {user_id} at {datetime.now()}")
         
         # Get user's language
         lang = get_user_language(user_id)
@@ -3985,7 +3912,6 @@ async def send_daily_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
         # Check if user still has reminders enabled 
         reminder_settings = db_manager.get_user_reminder_settings(user_id)
         if not reminder_settings.get("enabled", False):
-            # User disabled reminders, cancel the job
             logger.info(f"User {user_id} has disabled reminders, cancelling job")
             cancel_daily_reminder(context, user_id)
             return
@@ -4013,86 +3939,10 @@ async def send_daily_reminder(context: ContextTypes.DEFAULT_TYPE) -> None:
             reply_markup=reply_markup
         )
         
-        logger.info(f"Successfully sent daily reminder to user {user_id} at {now_jordan.strftime('%Y-%m-%d %H:%M:%S')} Jordan time")
-        
-        # Remove the time setting so status shows "no active reminder"
-        reminder_settings["enabled"] = True  # Keep enabled but remove time
-        if "time" in reminder_settings:
-            del reminder_settings["time"]
-        
-        # Save updated settings to database
-        db_manager.save_user_reminder_settings(user_id, reminder_settings)
-        
-        # Cancel/remove only this job
-        cancel_daily_reminder(context, user_id)
-        
-        logger.info(f"Deleted reminder job for user {user_id} - reminders still enabled but no active reminder")
+        logger.info(f"REMINDER EXECUTION COMPLETED - Successfully sent to user {user_id}")
         
     except Exception as e:
-        logger.error(f"Error sending daily reminder to user {user_id}: {str(e)}")
-        import traceback
-        logger.error(f"Traceback: {traceback.format_exc()}")
-        
-        # Still delete the reminder even if sending failed
-        try:
-            reminder_settings = db_manager.get_user_reminder_settings(user_id)
-            if "time" in reminder_settings:
-                del reminder_settings["time"]
-            db_manager.save_user_reminder_settings(user_id, reminder_settings)
-            cancel_daily_reminder(context, user_id)
-            logger.info(f"Deleted reminder for user {user_id} after error")
-        except Exception as delete_error:
-            logger.error(f"Error deleting reminder after failure: {delete_error}")
-
-def restore_reminder_jobs(application) -> None:
-    """Restore reminder jobs for all users who have reminders enabled."""
-    try:
-        # Jordan timezone
-        jordan_tz = pytz.timezone('Asia/Amman')
-        now_jordan = datetime.now(jordan_tz)
-        
-        # Load user data to check for enabled reminders
-        global user_data
-        if not user_data:
-            load_user_data()
-        
-        restored_count = 0
-        
-        for user_id, data in user_data.items():
-            reminder_settings = data.get("reminder_settings", {})
-            
-            if reminder_settings.get("enabled", False):
-                reminder_time = reminder_settings.get("time", "09:00")
-                
-                try:
-                    # Schedule the reminder job
-                    hour, minute = map(int, reminder_time.split(':'))
-                    job_name = f"reminder_{user_id}"
-                    
-                    # Remove any existing job for this user
-                    current_jobs = application.job_queue.get_jobs_by_name(job_name)
-                    for job in current_jobs:
-                        job.schedule_removal()
-                    
-                    # Schedule new job with Jordan timezone
-                    application.job_queue.run_daily(
-                        send_daily_reminder,
-                        time=time(hour=hour, minute=minute, tzinfo=jordan_tz),
-                        data=user_id,
-                        name=job_name
-                    )
-                    
-                    restored_count += 1
-                    logger.info(f"Restored reminder for user {user_id} at {reminder_time} Jordan time")
-                    
-                except Exception as e:
-                    logger.error(f"Error restoring reminder for user {user_id}: {str(e)}")
-        
-        logger.info(f"Restored {restored_count} reminder jobs on startup")
-        logger.info(f"Current Jordan time: {now_jordan.strftime('%Y-%m-%d %H:%M:%S')}")
-        
-    except Exception as e:
-        logger.error(f"Error restoring reminder jobs: {str(e)}")
+        logger.error(f"REMINDER EXECUTION FAILED for user {user_id}: {str(e)}")
         import traceback
         logger.error(f"Traceback: {traceback.format_exc()}")
 
