@@ -692,6 +692,11 @@ def load_progress_data(user_id: str, data_dir: str = "data") -> List[Dict]:
 def restore_reminder_jobs_from_db(application) -> None:
     """Restore reminder jobs for all users who have reminders enabled."""
     try:
+        # Check if application and job_queue are available
+        if not application or not application.job_queue:
+            logger.error("Application or job_queue not available for restoring reminders")
+            return
+            
         # Get all users with enabled reminders from database
         users_with_reminders = db_manager.get_all_users_with_reminders()
         
@@ -3798,6 +3803,11 @@ async def handle_reminder_callback(update: Update, context: ContextTypes.DEFAULT
 def schedule_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str, time_str: str) -> None:
     """Schedule a daily reminder for the user with correct timezone handling."""
     try:
+        # Check if job_queue is available
+        if not context.job_queue:
+            logger.error(f"Job queue not available for user {user_id}")
+            return
+        
         # Parse time string (HH:MM format)
         hour, minute = map(int, time_str.split(':'))
         
@@ -3840,6 +3850,11 @@ def schedule_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str, ti
 def cancel_daily_reminder(context: ContextTypes.DEFAULT_TYPE, user_id: str) -> None:
     """Cancel daily reminder for the user and remove all related jobs."""
     try:
+        # Check if job_queue is available
+        if not context.job_queue:
+            logger.error(f"Job queue not available for user {user_id}")
+            return
+            
         job_name = f"reminder_{user_id}"
         
         logger.info(f"STARTING cancellation for user {user_id}")
