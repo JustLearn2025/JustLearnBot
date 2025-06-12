@@ -875,7 +875,7 @@ def generate_progress_chart(progress_data: List[Dict], texts: Dict = None) -> By
 
 def record_quiz_progress(user_id: str, test_results: Dict) -> None:
     """
-    Record quiz progress after test completion.
+    Record quiz progress after test completion 
     
     Args:
         user_id: Telegram user ID
@@ -889,14 +889,23 @@ def record_quiz_progress(user_id: str, test_results: Dict) -> None:
             logger.warning(f"No score found in test results for user {user_id}")
             return
         
-        # Ensure score is in the correct format "correct/total"
+        # Handle both string format "correct/total" and direct numeric scores
         if isinstance(score, str) and "/" in score:
-            save_progress_entry(user_id, score)
+            correct, total = score.split("/")
+            correct = int(correct)
+            total = int(total)
+            
+            if total > 0:
+                normalized_score = (correct / total) * 100
+                normalized_score = round(normalized_score, 1)
+                db_manager.save_user_progress(user_id, normalized_score)
+                logger.info(f"Recorded progress for user {user_id}: {normalized_score}%")
         else:
             logger.warning(f"Invalid score format for progress tracking: {score}")
             
     except Exception as e:
         logger.error(f"Error recording quiz progress for user {user_id}: {str(e)}")
+
 
 def get_user_data(user_id: str) -> Dict:
     """Get data for a specific user from database."""
@@ -1441,7 +1450,7 @@ def move_to_next_adaptive_topic(user_id: str) -> Optional[str]:
 
 def update_adaptive_test_results(user_id: str, result_type: str) -> None:
     """
-    Update the results of the adaptive test.
+    Update the results of the adaptive test 
 
     Args:
         user_id: Telegram user ID
@@ -1469,7 +1478,7 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
     # Mark weak topics (less than 50% correct)
     weak_topics = []
     passed_topics = []
-    needs_more_training = session.get("needs_more_training", [])  # NEW
+    needs_more_training = session.get("needs_more_training", [])
     
     for topic, result in topic_results.items():
         if topic in needs_more_training:
@@ -1493,6 +1502,11 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
         current_date = now.strftime("%Y-%m-%d")
         current_time = now.strftime("%H:%M")
         
+        # Calculate total score
+        total_correct = sum(1 for answer in session['answers'] if answer['correct'])
+        total_questions = len(session['answers'])
+        score = f"{total_correct}/{total_questions}"
+        
         test_result = {
             "date": current_date,
             "time": current_time,
@@ -1501,11 +1515,21 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
             "weak_topics": weak_topics,
             "passed_topics": passed_topics,
             "needs_more_training": needs_more_training,
-            "score": f"{sum(1 for answer in session['answers'] if answer['correct'])}/{len(session['answers'])}"  # ADD THIS LINE
+            "score": score
         }
         
         # Save test to database BEFORE clearing session
         db_manager.save_user_test(user_id, test_result)
+        
+        # Record progress for adaptive tests
+        try:
+            if total_questions > 0:
+                normalized_score = (total_correct / total_questions) * 100
+                normalized_score = round(normalized_score, 1)
+                db_manager.save_user_progress(user_id, normalized_score)
+                logger.info(f"Adaptive test progress recorded for user {user_id}: {normalized_score}%")
+        except Exception as e:
+            logger.error(f"Error recording adaptive test progress for user {user_id}: {e}")
         
         # Add to adaptive tests history
         if "adaptive_tests" not in user_info:
@@ -1523,16 +1547,12 @@ def update_adaptive_test_results(user_id: str, result_type: str) -> None:
             "date": current_date,
             "time": current_time,
             "test_type": "Adaptive Test",
-            "score": f"{sum(1 for answer in session['answers'] if answer['correct'])}/{len(session['answers'])}",
+            "score": score,
             "weak_topics": weak_topics,
             "needs_more_training": needs_more_training
         }
         
         user_info["tests"].insert(0, test_entry)
-        try:
-            record_quiz_progress(user_id, test_entry)
-        except Exception as e:
-            logger.error(f"Error recording adaptive test progress: {e}")
         if len(user_info["tests"]) > 5:
             user_info["tests"] = user_info["tests"][:5]
         
