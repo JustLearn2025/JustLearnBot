@@ -408,17 +408,19 @@ class DatabaseManager:
             conn.commit()
     
     def get_user_progress(self, user_id: str) -> List[Dict]:
-        """Get user's progress data"""
+        """Get user's progress data - LAST 5 TESTS ONLY"""
         with self.get_connection() as conn:
             cursor = conn.cursor()
             cursor.execute('''
                 SELECT date, score FROM user_progress
                 WHERE user_id = ?
-                ORDER BY created_at
-                LIMIT 50
+                ORDER BY created_at DESC
+                LIMIT 5
             ''', (user_id,))
             
-            return [{'date': row['date'], 'score': row['score']} for row in cursor.fetchall()]
+            # Return in chronological order (oldest first) for chart
+            results = [{'date': row['date'], 'score': row['score']} for row in cursor.fetchall()]
+            return list(reversed(results))
     
     # ===== WEAK TOPICS OPERATIONS =====
     
