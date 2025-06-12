@@ -199,7 +199,7 @@ class UserTracker:
 
     def complete_test_session(self, user_id: str) -> Dict:
         """
-        Complete the current test session and save results.
+        Complete the current test session and save results 
      
         Args:
             user_id: Telegram user ID
@@ -249,14 +249,15 @@ class UserTracker:
         for topic in weak_topics:
             self.db_manager.add_weak_topic(user_id, topic)
 
-        # Record progress for visual tracking
+        # Record progress for ALL test types consistently
         try:
-            # Calculate normalized score for progress
             if total_questions > 0:
                 normalized_score = (correct_answers / total_questions) * 100
+                normalized_score = round(normalized_score, 1)
                 self.db_manager.save_user_progress(user_id, normalized_score)
+                print(f"Progress recorded for user {user_id}: {normalized_score}%")
         except Exception as e:
-            print(f"Error recording progress: {e}")
+            print(f"Error recording progress for user {user_id}: {e}")
 
         # Clear current test session
         user_data["current_test_session"] = None
